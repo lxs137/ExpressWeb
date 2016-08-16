@@ -1,0 +1,77 @@
+<html >
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width:device-width,initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="css/material.css">
+	<link rel="stylesheet" type="text/css" href="css/login_style.css">
+	<!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/material.min.js"></script>
+	<script type="text/javascript" src="js/login_material.js"></script>
+</head>
+<body>
+<div class="login-background"></div>
+<div id="textbox" class="mdl-card mdl-shadow--4dp">
+	<div class="toplam">
+		<div class="toplam-left">
+			<div class="signup-field">
+				<h2 class="mdl-color-text--primary">注 册</h2>
+				<form action="#">
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<input class="mdl-textfield__input signup-input-text" type="text" id="signup_username" pattern="[0-9a-zA-Z]*">
+						<label class="mdl-textfield__label" style="font-size: large" for="signup_username">用户名</label>
+						<span class="mdl-textfield__error">用户名只能含有字母或数字</span>
+					</div>
+					<br>
+					<br>
+					<!--<div class="mdl-textfield mdl-js-textfield mdl-textfield&#45;&#45;floating-label">-->
+						<!--<input class="mdl-textfield__input login-input-text" type="password" id="signup_password">-->
+						<!--<label class="mdl-textfield__label" style="font-size: large" for="signup_password">密码</label>-->
+					<!--</div>-->
+
+				</form>
+				<div>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"
+							type="button" >Button</button>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"
+							type="button" id="moveright">Move</button>
+				</div>
+			</div>
+		</div>
+		<div class="toplam-right">
+			<div class="login-field">
+				<h2 class="mdl-color-text--primary">登 录</h2>
+				<form action="#">
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<input class="mdl-textfield__input login-input-text" type="text" id="login_username" pattern="[0-9a-zA-Z]*">
+						<label class="mdl-textfield__label" style="font-size: large" for="login_username">用户名</label>
+						<span class="mdl-textfield__error">用户名只能含有字母或数字</span>
+					</div>
+					<br>
+					<br>
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<input class="mdl-textfield__input login-input-text" type="password" id="login_password">
+						<label class="mdl-textfield__label" style="font-size: large" for="login_password">密码</label>
+					</div>
+					<br>
+					<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch_remember">
+						<input class="mdl-switch__input mdl-shadow--4dp mdl-switch__thumb" type="checkbox" id="switch_remember">
+						<span class="mdl-switch__label login-switch-text">记住密码</span>
+					</label>
+				</form>
+				<div>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"
+							type="button" id="moveleft">Move</button>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"
+							type="button" >登录</button>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</div>
+</body>
+</html>
