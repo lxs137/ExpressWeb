@@ -4,6 +4,7 @@
 var ladinginfomanage=new LadingInfoManage();
 $(document).ready(function () {
 	setGetInfoClick();
+	initListView();
 });
 function setGetInfoClick() {
 	document.getElementById("getInfo").addEventListener('click', function () {
@@ -16,11 +17,10 @@ function setGetInfoClick() {
 			},
 			function (data) {
 		//var data="8117998663404196#2016-08-17 19:07:14.0#韩关夫#9600 Bellaire Blvd. Suite 101#13321158959#1##4350403813914722#2016-08-16 10:42:35.0#康香#1214 Elgin St,Houston, Texas 77004#13705580574#0##";
-				window.alert(data);
 				ladinginfomanage.setData(data);
 				setCookie("ladinginfomanage",data,365);
+				initdata("nestable1",ladinginfomanage,1);
+				initdata("nestable2",ladinginfomanage,2);
 			});
-		alert(ladinginfomanage.getLadingInfoList()[0].getReceiverName()+"　"+ladinginfomanage.getLadingInfoList()[1].getReceiverName());
-		alert(getCookie("ladinginfomanage"));
 	},false);
 }
