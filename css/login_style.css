@@ -48,7 +48,7 @@ body{
 }
 .login-field{
 	position: relative;
-	width: 60%;
+	width: 40%;
 	max-width: 100%;
 	height: 50%;
 	max-height: 100%;
@@ -65,7 +65,7 @@ body{
 	height: 70%;
 	max-height: 100%;
 	margin-left: 20%;
-	margin-top: 20%;
+	margin-top: 12%;
 	background: #2c3034;
 	-webkit-flex-grow: 1;
 	flex-grow: 1;
@@ -73,7 +73,7 @@ body{
 .login-field h2{
 	font-size: 2.0em;
 	font-weight: 200;
-	margin-bottom: 8%;
+	margin-bottom: 10%;
 }
 .signup-field h2{
 	font-size: 2.0em;
@@ -87,7 +87,10 @@ body{
 .signup-input-text{
 	color: #727272;
 	font-size: x-large;
-	border-bottom: 1px solid #45494C;
+	border-bottom: 1px solid #727272;
+}
+.signup-label-text{
+	color:#727272;
 }
 .login-switch-text{
 	color: #727272;
@@ -95,27 +98,17 @@ body{
 }
 #moveleft, #moveright{
 	width: auto;
-	float: right;
 	background: none;
 	padding: 10px 16px;
 	font-family: Roboto;
-	font-size: 14px;
+	font-size: 18px;
 	color: #03A9F4;
 	font-weight: 600;
-	margin: 0 10px !important;
+	margin: 0 20px !important;
 	line-height: 16px;
 	text-transform: uppercase;
 	cursor: pointer;
 	max-height: 36px;
 	height: 36px;
-	letter-spacing: 0.5px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
-	-webkit-transition-duration: 0.25s;
-	transition-duration: 0.25s;
-	-webkit-transition-property: background-color;
-	transition-property: background-color;
-	border: 0;
-	outline: 0;
+	box-shadow: none;
 }
