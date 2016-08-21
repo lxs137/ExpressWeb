@@ -1,0 +1,102 @@
+
+html, body {
+	font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+.basispage-layout .basispage-header .mdl-textfield {
+	padding: 0;
+	margin-top: 41px;
+}
+.basispage-layout .basispage-header .mdl-textfield .mdl-textfield__expandable-holder {
+	bottom: 19px;
+}
+.basispage-layout .mdl-layout__header .mdl-layout__drawer-button {
+	color: rgba(0, 0, 0, 0.54);
+}
+.basispage-drawer {
+	border: none;
+}
+.basispage-drawer-header {
+	box-sizing: border-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-justify-content: flex-end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+	padding: 16px;
+	height: 151px;
+}
+.mdl-layout__drawer .avatar {
+	margin-bottom: 16px;
+}
+.basispage-avatar{
+	width: 48px;
+	height: 48px;
+	border-radius: 24px;
+}
+.basispage-avatar-dropdown {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	position: relative;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	width: 100%;
+}
+.basispage-drawer .mdl-menu__container {
+	z-index: -1;
+}
+.basispage-drawer .mdl-menu .mdl-menu__item {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+.basispage-drawer .basispage-navigation {
+	z-index: -2;
+}
+.basispage-layout .basispage-navigation .mdl-navigation__link {
+	display: -webkit-flex !important;
+	display: -ms-flexbox !important;
+	display: flex !important;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	color: rgba(255, 255, 255, 0.56);
+	font-weight: 500;
+}
+.basispge-layout .basispage-navigation .mdl-navigation__link:hover {
+	background-color: #00BCD4;
+	color: #37474F;
+}
+.basispage-navigation {
+	-webkit-flex-grow: 1;
+	-ms-flex: 1;
+	flex-grow: 1;
+}
+.basispage-navigation .mdl-navigation__link .material-icons {
+	font-size: 24px;
+	color: rgba(255, 255, 255, 0.56);
+	margin-right: 32px;
+}
+.demo-cards {
+	-webkit-align-items: flex-start;
+	-ms-flex-align: start;
+	-ms-grid-row-align: start;
+	align-items: flex-start;
+	-webkit-align-content: flex-start;
+	-ms-flex-line-pack: start;
+	align-content: flex-start;
+}

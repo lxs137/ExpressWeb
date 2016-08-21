@@ -1,0 +1,46 @@
+.person_listItem{
+	width: 34%;
+	height: 23%;
+	margin: 2%;
+}
+.person_listItem_title{
+	padding: 8px 20px 8px 20px;
+}
+.person_listItem_title img{
+	width: 60px;
+	height: 60px;
+	margin-right: 15px;
+}
+.person_listItem_title h3{
+	display: inline;
+	color: #00BCD4;
+}
+.mdl-card__supporting-text h5{
+	display: inline;
+}
+.mdl-card__supporting-text img{
+	margin: 4px 8px 4px 8px;
+}
+.mdl-card__supporting-text h5{
+	font-size: 16px;
+	font-weight: 400;
+}
+.lading_listItem{
+	width: 34%;
+	height: 25%;
+	margin: 2%;
+}
+.lading_listItem > .mdl-card__title{
+	width: 100%;
+	height: 80px;
+	padding: 16px 16px 16px 8px;
+	background: url('../images/lading_listItem_background.png') center/cover;
+}
+#lading_listItem_id{
+	color: #0097a7;
+	font-size: 35px;
+	font-weight: 400;
+}
+.lading_listItem h5{
+	font-size: 18px;
+}

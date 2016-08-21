@@ -42,7 +42,7 @@ function setClick() {
 						cleanCookie("password");
 						setCookie("guid", data, 365)
 					}
-					window.location.href = "getladinginfo.html";
+					window.location.href = "../station_listItem.html";
 				}
 				else
 				{
