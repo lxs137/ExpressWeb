@@ -27,7 +27,7 @@ html, body {
 	-ms-flex-pack: end;
 	justify-content: flex-end;
 	padding: 16px;
-	height: 151px;
+	height: 150px;
 }
 .mdl-layout__drawer .avatar {
 	margin-bottom: 16px;
@@ -77,7 +77,7 @@ html, body {
 	color: rgba(255, 255, 255, 0.56);
 	font-weight: 500;
 }
-.basispge-layout .basispage-navigation .mdl-navigation__link:hover {
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
 	background-color: #00BCD4;
 	color: #37474F;
 }

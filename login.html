@@ -20,23 +20,22 @@
 				<h2 class="mdl-color-text--primary">注 册</h2>
 				<form action="#">
 					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 50%;margin-right: 5%;margin-bottom: 6px;">
-						<input class="mdl-textfield__input signup-input-text" type="text" id="signup_username" pattern="[0-9a-zA-Z]*">
-						<label class="mdl-textfield__label signup-label-text" style="font-size: large" for="signup_username">用户名</label>
-						<span class="mdl-textfield__error">用户名只能含有字母或数字</span>
+						<input class="mdl-textfield__input signup-input-text" type="text" id="signup_phone" pattern="[0-9]*">
+						<label class="mdl-textfield__label signup-label-text" style="font-size: large" for="signup_phone">手机号</label>
+						<span class="mdl-textfield__error">手机号只能含有数字</span>
 					</div>
 					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 35%;margin-bottom: 6px;">
 						<input class="mdl-textfield__input signup-input-text" type="text" id="signup_nickname">
 						<label class="mdl-textfield__label signup-label-text" style="font-size: large" for="signup_nickname">昵称</label>
 					</div>
 					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 90%;margin-bottom: 11px;">
+						<input class="mdl-textfield__input signup-input-text" type="password" id="signup_password">
+						<label class="mdl-textfield__label signup-label-text" style="font-size: large" for="signup_password">密码</label>
+					</div>
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 90%;margin-bottom: 11px;">
 						<input class="mdl-textfield__input signup-input-text" type="text" id="signup_mail" pattern="^[A-Za-z0-9]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$">
 						<label class="mdl-textfield__label signup-label-text" style="font-size: large" for="signup_mail">邮箱</label>
 						<span class="mdl-textfield__error">邮箱格式不正确</span>
-					</div>
-					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 90%;margin-bottom: 11px;">
-						<input class="mdl-textfield__input signup-input-text" type="text" id="signup_id_num" pattern="[0-9x]*">
-						<label class="mdl-textfield__label signup-label-text" style="font-size: large" for="signup_id_num">身份证</label>
-						<span class="mdl-textfield__error">身份证号只能含有数字或字母x</span>
 					</div>
 					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 90%">
 						<input class="mdl-textfield__input signup-input-text" type="text" id="signup_register_num" pattern="[0-9a-zA-Z]*" style="font-size: x-large">

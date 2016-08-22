@@ -2,11 +2,6 @@
  * Nestable jQuery Plugin - Copyright (c) 2012 David Bushell - http://dbushell.com/
  * Dual-licensed under the BSD or MIT licenses
  */
-/**
- * initdata的第一个参数是div的id，说明把得到的数据显示在那个地方下。
- * initdata的第二个参数是初始化内容，以货物的对象为例。
- * initdata的第三个参数表示是初始化哪些内容，type=1时为人员信息，type=2时为货物信息。
- */
 var initListView=function()
 {
     var updateOutput = function(e)
@@ -64,23 +59,23 @@ var initListView=function()
     })();
 
     var defaults = {
-            listNodeName    : 'ol',
-            itemNodeName    : 'li',
-            rootClass       : 'dd',
-            listClass       : 'dd-list',
-            itemClass       : 'dd-item',
-            dragClass       : 'dd-dragel',
-            handleClass     : 'dd-handle',
-            collapsedClass  : 'dd-collapsed',
-            placeClass      : 'dd-placeholder',
-            noDragClass     : 'dd-nodrag',
-            emptyClass      : 'dd-empty',
-            expandBtnHTML   : '<button data-action="expand" type="button">Expand</button>',
-            collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
-            group           : 0,
-            maxDepth        : 3,
-            threshold       : 20
-        };
+        listNodeName    : 'ol',
+        itemNodeName    : 'li',
+        rootClass       : 'dd',
+        listClass       : 'dd-list',
+        itemClass       : 'dd-item',
+        dragClass       : 'dd-dragel',
+        handleClass     : 'dd-handle',
+        collapsedClass  : 'dd-collapsed',
+        placeClass      : 'dd-placeholder',
+        noDragClass     : 'dd-nodrag',
+        emptyClass      : 'dd-empty',
+        expandBtnHTML   : '<button data-action="expand" type="button">Expand</button>',
+        collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
+        group           : 0,
+        maxDepth        : 2,
+        threshold       : 20
+    };
 
     function Plugin(element, options)
     {
@@ -178,22 +173,22 @@ var initListView=function()
             var data,
                 depth = 0,
                 list  = this;
-                step  = function(level, depth)
+            step  = function(level, depth)
+            {
+                var array = [ ],
+                    items = level.children(list.options.itemNodeName);
+                items.each(function()
                 {
-                    var array = [ ],
-                        items = level.children(list.options.itemNodeName);
-                    items.each(function()
-                    {
-                        var li   = $(this),
-                            item = $.extend({}, li.data()),
-                            sub  = li.children(list.options.listNodeName);
-                        if (sub.length) {
-                            item.children = step(sub, depth + 1);
-                        }
-                        array.push(item);
-                    });
-                    return array;
-                };
+                    var li   = $(this),
+                        item = $.extend({}, li.data()),
+                        sub  = li.children(list.options.listNodeName);
+                    if (sub.length) {
+                        item.children = step(sub, depth + 1);
+                    }
+                    array.push(item);
+                });
+                return array;
+            };
             data = step(list.el.find(list.options.listNodeName).first(), depth);
             return data;
         },
@@ -239,17 +234,55 @@ var initListView=function()
             li.children('[data-action="expand"]').hide();
             li.children('[data-action="collapse"]').show();
             li.children(this.options.listNodeName).show();
+
+            var length=li.find("li.dd-item").length;
+            for(var i=0;i<length;i++)
+                li.find("li.dd-item").eq(i).children().css("z-index","-1");
+            li.find("li.dd-item").eq(0).children().animate({
+                opacity:"1",
+                marginTop:"0"
+            },2000,function () {
+                li.find("li.dd-item").eq(1).children().animate({
+                    opacity:"1",
+                    marginTop:"0"
+                },2000,function () {
+                    for(var i=0;i<length;i++)
+                        li.find("li.dd-item").eq(i).children().css("z-index","1");
+                });
+            });
+
+
         },
 
         collapseItem: function(li)
         {
+            var thisObject=this;
             var lists = li.children(this.options.listNodeName);
             if (lists.length) {
-                li.addClass(this.options.collapsedClass);
-                li.children('[data-action="collapse"]').hide();
-                li.children('[data-action="expand"]').show();
-                li.children(this.options.listNodeName).hide();
+                var length=li.find("li.dd-item").length;
+                for(var i=0;i<length;i++)
+                    li.find("li.dd-item").eq(i).children().css("z-index","-1");
+                li.find("li.dd-item").eq(0).children().animate({
+                    opacity:"0",
+                    marginTop:"-195px"
+                },2000,function () {
+                    li.find("li.dd-item").eq(1).children().animate({
+                        opacity:"0",
+                        marginTop:"-195px"
+                    },2000,function () {
+                        for(var i=0;i<length;i++)
+                            li.find("li.dd-item").eq(i).children().css("z-index","1");
+                        li.children('[data-action="collapse"]').hide();
+                        li.children('[data-action="expand"]').show();
+                        li.children(thisObject.options.listNodeName).hide();
+                    });
+                });
+
             }
+
+
+
+
         },
 
         expandAll: function()
@@ -301,6 +334,13 @@ var initListView=function()
 
             this.dragEl = $(document.createElement(this.options.listNodeName)).addClass(this.options.listClass + ' ' + this.options.dragClass);
             this.dragEl.css('width', dragItem.width());
+
+            document.getElementById("test").innerHTML=dragItem.children().attr("class");
+            if(dragItem.children().attr("class").toString().indexOf("person")!=-1)
+            {
+                this.reset();
+                return;
+            }
 
             dragItem.after(this.placeEl);
             dragItem[0].parentNode.removeChild(dragItem[0]);
@@ -467,7 +507,7 @@ var initListView=function()
                     return;
                 }
                 var before = e.pageY < (this.pointEl.offset().top + this.pointEl.height() / 2);
-                    parent = this.placeEl.parent();
+                parent = this.placeEl.parent();
                 // if empty create new list to replace empty placeholder
                 if (isEmpty) {
                     list = $(document.createElement(opt.listNodeName)).addClass(opt.listClass);
@@ -521,25 +561,86 @@ var initListView=function()
 })(window.jQuery || window.Zepto, window, document);
 
 
-function initdata(obj,data,type) {
-    // var detaildata=data.split("#");
-    // var div=document.getElementById(obj);
-    // var ol=document.createElement("ol");
-    // div.appendChild(ol);
-    // ol.setAttribute("class","dd-list");
-    // for(var i=1;i<=detaildata.length;i++)
-    // {
-    //     if(detaildata[i-1]=="")
-    //         break;
-    //     var li=document.createElement("li");
-    //     ol.appendChild(li);
-    //     li.setAttribute("class","dd-item");
-    //     li.setAttribute("dd-id","Lading"+i);
-    //     var div2=document.createElement("div");
-    //     li.appendChild(div2);
-    //     div2.setAttribute("class","dd-handle");
-    //     div2.innerHTML="LadingInfo"+detaildata[i-1];
-    // }
+/**
+ * initdata的第一个参数是div的id，说明把得到的数据显示在哪个地方下。
+ * initdata的第二个参数是初始化内容，以货物的对象为例。
+ * initdata的第三个参数表示是初始化哪些内容，type=1时为人员信息，type=2时为货物信息。
+ */
+function initpersondata(obj,data) {
+    var div=document.getElementById(obj);
+    var ol=document.createElement("ol");
+    div.appendChild(ol);
+    ol.setAttribute("class","dd-list");
+    for(var i=1;i<=data.length;i++) {
+        var li = document.createElement("li");
+        ol.appendChild(li);
+        li.setAttribute("class", "dd-item");
+        li.setAttribute("id", "Person_" + i);
+        var div2 = document.createElement("div");
+        li.appendChild(div2);
+        div2.setAttribute("class", "person_listItem dd-handle mdl-card mdl-shadow--4dp");
+        var div3=document.createElement("div");
+        div2.appendChild(div3);
+        div3.setAttribute("class","person_listItem_title mdl-card__title mdl-card--border");
+        var span1=document.createElement("span");
+        div3.appendChild(span1);
+        var img1=document.createElement("img");
+        span1.appendChild(img1);
+        img1.setAttribute("src","images/person_photo.png");
+        var h1=document.createElement("h3");
+        span1.appendChild(h1);
+        h1.setAttribute("class","mdl-card__title-text");
+        h1.innerHTML=data[i-1].getdmNickName();//输出Name
+        var div4=document.createElement("div");
+        div2.appendChild(div4);
+        div4.setAttribute("class","mdl-card__supporting-text");
+        var div5=document.createElement("div");
+        div4.appendChild(div5);
+        var span2=document.createElement("span");
+        div5.appendChild(span2);
+        var img2=document.createElement("img");
+        span2.appendChild(img2);
+        img2.setAttribute("id","person_listItem_phone_number");
+        img2.setAttribute("src","images/person_listItem_phone_number.png");
+        var div6=document.createElement("div");
+        span2.appendChild(div6);
+        div6.setAttribute("class","mdl-tooltip");
+        div6.setAttribute("data-mdl-for","person_listItem_phone_number");
+        div6.innerHTML="电话号码";
+        var h2=document.createElement("h5");
+        span2.appendChild(h2);
+        h2.innerHTML=data[i-1].getdmTelephone();
+        var span3=document.createElement("span");
+        div5.appendChild(span3);
+        var img3=document.createElement("img");
+        span3.appendChild(img3);
+        img3.setAttribute("id","person_listItem_id_num");
+        img3.setAttribute("src","images/person_listItem_id_num.png");
+        var div7=document.createElement("div");
+        span3.appendChild(div7);
+        div7.setAttribute("class","mdl-tooltip");
+        div7.setAttribute("data-mdl-for","person_listItem_id_num");
+        div7.innerHTML="身份证号";
+        var h3=document.createElement("h5");
+        span3.appendChild(h3);
+        h3.innerHTML=data[i-1].getdmEmail();
+        var div8=document.createElement("div");
+        div4.appendChild(div8);
+        var img4=document.createElement("img");
+        div8.appendChild(img4);
+        img4.setAttribute("id","person_listItem_address");
+        img4.setAttribute("src","images/person_listItem_address.png");
+        var div9=document.createElement("div");
+        div8.appendChild(div9);
+        div9.setAttribute("class","mdl-tooltip");
+        div9.setAttribute("data-mdl-for","person_listItem_address");
+        div9.innerHTML="所属中转站";
+        var h4=document.createElement("h5");
+        div8.appendChild(h4);
+        h4.innerHTML=data[i-1].getdmAddress();
+    }
+}
+function initladingdata(obj,data,type) {
     var div=document.getElementById(obj);
     var ol=document.createElement("ol");
     div.appendChild(ol);
@@ -548,13 +649,86 @@ function initdata(obj,data,type) {
         var li = document.createElement("li");
         ol.appendChild(li);
         li.setAttribute("class", "dd-item");
-        li.setAttribute("dd-id", "Lading" + i);
+        li.setAttribute("id", "Lading_" + i);
         var div2 = document.createElement("div");
         li.appendChild(div2);
-        div2.setAttribute("class", "dd-handle");
-        if (type == 1)
-            div2.innerHTML = data.getLadingInfoList()[i - 1].getLadingIdNum() + data.getLadingInfoList()[i - 1].getIsDelivered();
+        if(type=="0")
+            div2.setAttribute("class", "lading_listItem dd-handle mdl-card mdl-shadow--4dp");
         else
-            div2.innerHTML = data.getLadingInfoList()[i - 1].getReceiverName() + data.getLadingInfoList()[i - 1].getReceiverAddress() + data.getLadingInfoList()[i - 1].getReceiverPhone();
+            div2.setAttribute("class", "lading_listItem_undraged dd-handle mdl-card mdl-shadow--4dp");
+        var div3=document.createElement("div");
+        div2.appendChild(div3);
+        div3.setAttribute("class","mdl-card__title");
+        var h1=document.createElement("h3");
+        div3.appendChild(h1);
+        h1.setAttribute("id","lading_listItem_id");
+        h1.setAttribute("class","mdl-card__title-text");
+        h1.innerHTML=data.getLadingInfoList()[i-1].getLadingIdNum();//输出Name
+        var div4=document.createElement("div");
+        div3.appendChild(div4);
+        div4.setAttribute("class","mdl-tooltip");
+        div4.setAttribute("data-mdl-for","lading_listItem_id");
+        div4.innerHTML="货物单号";
+        var div5=document.createElement("div");
+        div2.appendChild(div5);
+        div5.setAttribute("class","mdl-card__supporting-text");
+        var div6=document.createElement("div");
+        div5.appendChild(div6);
+        var span1=document.createElement("span");
+        div6.appendChild(span1);
+        var img1=document.createElement("img");
+        span1.appendChild(img1);
+        img1.setAttribute("id","lading_listItem_name");
+        img1.setAttribute("src","images/lading_listItem_name.png");
+        var div7=document.createElement("div");
+        span1.appendChild(div7);
+        div7.setAttribute("class","mdl-tooltip");
+        div7.setAttribute("data-mdl-for","lading_listItem_name");
+        div7.innerHTML="收货人姓名";
+        var h1=document.createElement("h5");
+        span1.appendChild(h1);
+        h1.innerHTML=data.getLadingInfoList()[i-1].getReceiverName();
+        var span2=document.createElement("span");
+        div6.appendChild(span2);
+        var img2=document.createElement("img");
+        span2.appendChild(img2);
+        img2.setAttribute("id","lading_listItem_phone");
+        img2.setAttribute("src","images/lading_listItem_phone.png");
+        var div8=document.createElement("div");
+        span2.appendChild(div8);
+        div8.setAttribute("class","mdl-tooltip");
+        div8.setAttribute("data-mdl-for","lading_listItem_phone");
+        div8.innerHTML="收货人联系方式";
+        var h2=document.createElement("h5");
+        span2.appendChild(h2);
+        h2.innerHTML=data.getLadingInfoList()[i-1].getReceiverPhone();
+        var div9=document.createElement("div");
+        div5.appendChild(div9);
+        var img3=document.createElement("img");
+        div9.appendChild(img3);
+        img3.setAttribute("id","lading_listItem_address");
+        img3.setAttribute("src","images/lading_listItem_address.png");
+        var div10=document.createElement("div");
+        div9.appendChild(div10);
+        div10.setAttribute("class","mdl-tooltip");
+        div10.setAttribute("data-mdl-for","lading_listItem_address");
+        div10.innerHTML="收货人地址";
+        var h3=document.createElement("h5");
+        div9.appendChild(h3);
+        h3.innerHTML=data.getLadingInfoList()[i-1].getReceiverAddress();
+        var div11=document.createElement("div");
+        div5.appendChild(div11);
+        var img4=document.createElement("img");
+        div11.appendChild(img4);
+        img4.setAttribute("id","lading_listItem_updateTime");
+        img4.setAttribute("src","images/lading_listItem_updateTime.png");
+        var div12=document.createElement("div");
+        div11.appendChild(div12);
+        div12.setAttribute("class","mdl-tooltip");
+        div12.setAttribute("data-mdl-for","lading_listItem_updateTime");
+        div12.innerHTML="货物信息更新时间";
+        var h4=document.createElement("h5");
+        div11.appendChild(h4);
+        h4.innerHTML=data.getLadingInfoList()[i-1].getUpDataTime();
     }
 }

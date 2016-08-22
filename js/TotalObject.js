@@ -1,7 +1,7 @@
 /**
  * Created by xyj64 on 2016/8/17.
  */
-var ipaddress="172.28.159.124";
+var ipaddress="172.26.52.66";
 function setCookie(cname, cvalue, exdays) {
 	var d = new Date();
 	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -45,20 +45,21 @@ Date.prototype.Format = function (fmt) { //author: meizz
 		if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 	return fmt;
 };
-function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiverphone,isdelivered) {
+function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiverphone,isdelivered,havebeen) {
 	var ladingIdNum=ladingidnum;
 	var upDataTime=updatatime;
 	var receiverName=receivername;
 	var receiverAddress=receiveraddress;
 	var receiverPhone=receiverphone;
 	var isDelivered=isdelivered;
+	var haveBeen=havebeen;
 
 	this.getLadingIdNum=function () {
 		return ladingIdNum;
 	};
 
 	this.getUpDataTime=function () {
-		return upDataTime.Format("yyyy-MM-dd HH:mm:ss");
+		return upDataTime;//.Format("yyyy-MM-dd HH:mm:ss");
 	};
 
 	this.getReceiverName=function () {
@@ -77,6 +78,10 @@ function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiver
 		return isDelivered;
 	};
 
+	this.getHaveBeen=function () {
+		return haveBeen;
+	};
+
 	this.setLadingIdNum=function (ladingidnum) {
 		ladingIdNum=ladingidnum;
 	};
@@ -90,7 +95,8 @@ function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiver
 		var day=data[0].split("-");
 		var time=data[1].split(":");
 		upDataTime=new Date(day[0],day[1]-1,day[2],time[0],time[1],time[2]);
-	}
+		alert(upDataTime.Format('yyyy-MM-dd HH:mm:ss'));
+	};
 
 	this.setReceiverName=function (receivername) {
 		receiverName=receivername;
@@ -106,21 +112,24 @@ function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiver
 
 	this.setIsDelivered=function (isdelivered) {
 		isDelivered=isdelivered;
-	}
+	};
 
+	this.setHaveBeen=function (havebeen) {
+		haveBeen=havebeen;
+	};
 }
 function LadingInfoManage() {
 	var LadingInfoList=new Array();
 
-	this.setData=function(postBackLadingInfo)
+	this.setData=function(postBackLadingInfo,havebeen)
 	{
 		var data=postBackLadingInfo.split("##");
 		for(var i=0;i<data.length;i++)
 		{
 			var detailData=data[i].split("#");
 			if(detailData.length<4)
-				break;
-			LadingInfoList.push(new LadingInfo(detailData[0],detailData[1],detailData[2],detailData[3],detailData[4],detailData[5]));
+				continue;
+			LadingInfoList.push(new LadingInfo(detailData[0],detailData[1],detailData[2],detailData[3],detailData[4],detailData[5],havebeen));
 		}
 	};
 
@@ -152,4 +161,8 @@ function LadingInfoManage() {
 			return ladingInfo1.getUpDataTime().localeCompare(ladingInfo2.getUpDataTime());
 		})
 	}
+
+	// this.searchByLadingIdNum=function () {
+	// 	for(var i=0;i<LadingInfoList)
+	// }
 }
