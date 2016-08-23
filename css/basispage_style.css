@@ -91,6 +91,16 @@ html, body {
 	color: rgba(255, 255, 255, 0.56);
 	margin-right: 32px;
 }
+#on_the_way{
+	position:fixed;
+	top:89%;
+	left:93%;
+	z-index: 5;
+}
+#ic_collapse_all,#ic_expand_all{
+	float: right;
+	margin-right: 3%;
+}
 .demo-cards {
 	-webkit-align-items: flex-start;
 	-ms-flex-align: start;

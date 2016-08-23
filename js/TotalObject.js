@@ -52,7 +52,6 @@ function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiver
 	var receiverAddress=receiveraddress;
 	var receiverPhone=receiverphone;
 	var isDelivered=isdelivered;
-	var haveBeen=havebeen;
 
 	this.getLadingIdNum=function () {
 		return ladingIdNum;
@@ -76,10 +75,6 @@ function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiver
 
 	this.getIsDelivered=function () {
 		return isDelivered;
-	};
-
-	this.getHaveBeen=function () {
-		return haveBeen;
 	};
 
 	this.setLadingIdNum=function (ladingidnum) {
@@ -113,15 +108,11 @@ function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiver
 	this.setIsDelivered=function (isdelivered) {
 		isDelivered=isdelivered;
 	};
-
-	this.setHaveBeen=function (havebeen) {
-		haveBeen=havebeen;
-	};
 }
 function LadingInfoManage() {
 	var LadingInfoList=new Array();
 
-	this.setData=function(postBackLadingInfo,havebeen)
+	this.setData=function(postBackLadingInfo)
 	{
 		var data=postBackLadingInfo.split("##");
 		for(var i=0;i<data.length;i++)
@@ -129,7 +120,7 @@ function LadingInfoManage() {
 			var detailData=data[i].split("#");
 			if(detailData.length<4)
 				continue;
-			LadingInfoList.push(new LadingInfo(detailData[0],detailData[1],detailData[2],detailData[3],detailData[4],detailData[5],havebeen));
+			LadingInfoList.push(new LadingInfo(detailData[0],detailData[1],detailData[2],detailData[3],detailData[4],detailData[5]));
 		}
 	};
 
@@ -161,8 +152,4 @@ function LadingInfoManage() {
 			return ladingInfo1.getUpDataTime().localeCompare(ladingInfo2.getUpDataTime());
 		})
 	}
-
-	// this.searchByLadingIdNum=function () {
-	// 	for(var i=0;i<LadingInfoList)
-	// }
 }

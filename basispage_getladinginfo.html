@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<title>Basisage</title>
+
+	<!-- Add to homescreen for Chrome on Android -->
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<!-- Add to homescreen for Safari on iOS -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Material Design Lite">
+
+	<!-- Tile icon for Win8 (144x144 + tile color) -->
+	<meta name="msapplication-TileColor" content="#3372DF">
+
+	<link rel="stylesheet" href="fonts/roboto/Roboto-Bold.ttf">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="css/material.css">
+	<link rel="stylesheet" type="text/css" href="css/listItem_style.css">
+	<link rel="stylesheet" type="text/css" href="css/basispage_style.css">
+</head>
+<body>
+<div class="basispage-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+	<header class="basispage-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+		<div class="mdl-layout__header-row">
+			<span class="mdl-layout-title">主界面</span>
+			<div class="mdl-layout-spacer"></div>
+			<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+				<i class="mdi mdi-dots-vertical"></i>
+			</button>
+			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+				<li class="mdl-menu__item" id="back-top">回到顶部</li>
+				<li class="mdl-menu__item" id="logout">账户注销</li>
+				<li>
+					<a class="mdl-menu__item" href="https://github.com/lxs137/ExpressWeb">关于我们</a>
+				</li>
+			</ul>
+		</div>
+	</header>
+	<div class="basispage-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+		<header class="basispage-drawer-header">
+			<!--<img src="images/user.jpg" class="basispage-avatar">-->
+			<i class="mdi mdi-account-circle basispage-avatar mdi-48px"></i>
+			<div class="basispage-avatar-dropdown">
+				<span>hello@example.com</span>
+				<div class="mdl-layout-spacer"></div>
+				<button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+					<i class="mdi mdi-menu-down" role="presentation"></i>
+					<span class="visuallyhidden">Accounts</span>
+				</button>
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+					<li class="mdl-menu__item">hello@example.com</li>
+					<li class="mdl-menu__item">info@example.com</li>
+					<li class="mdl-menu__item">Add another account...</li>
+				</ul>
+			</div>
+		</header>
+		<nav class="basispage-navigation mdl-navigation mdl-color--blue-grey-800">
+			<a class="mdl-navigation__link" href="basispage.html">
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-chart-bar material-icons" role="presentation"></i>
+				统计图表
+			</a>
+			<a class="mdl-navigation__link" href="basispage.html">
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-ambulance material-icons" role="presentation"></i>
+				货物调配
+			</a>
+			<a class="mdl-navigation__link" href="basispage.html">
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-google-maps material-icons" role="presentation"></i>
+				查看货物
+			</a>
+			<a class="mdl-navigation__link" href="basispage.html">
+				<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report</i>
+				Spam
+			</a>
+			<div class="mdl-layout-spacer"></div>
+		</nav>
+	</div>
+	<main class="mdl-layout__content mdl-color--grey-100">
+		<menu id="nestable-menu">
+			<button class="mdl-button mdl-js-button" type="button" data-action="expand-all" id="ic_expand_all">
+				<img src="images/icon-expand.png">
+			</button>
+			<div class="mdl-tooltip" data-mdl-for="ic_expand_all">展开所有条目</div>
+			<button class="mdl-button mdl-js-button" type="button" data-action="collapse-all" id="ic_collapse_all">
+				<img src="images/icon_collapse.png">
+			</button>
+			<div class="mdl-tooltip" data-mdl-for="ic_collapse_all">收起所有条目</div>
+		</menu>
+		<div class="cf nestable-lists">
+			<div class="dd" id="nestable1"></div>
+			<div class="dd" id="nestable2"></div>
+		</div>
+		<div class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-shadow--4dp" id="on_the_way">
+			<i class="material-icons mdi-send mdi" style="top: 45%;left: 55%"></i>
+		</div>
+	</main>
+</div>
+<script type="text/javascript" src="js/material.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/TotalObject.js"></script>
+<script type="text/javascript" src="js/LadingInfo.js"></script>
+<script type="text/javascript" src="js/jquery.nestable.js"></script>
+</body>
+</html>

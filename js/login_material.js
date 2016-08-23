@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	checkCookie();
-	setClick();
+	setLoginClick();
+	setRegisterClick();
 	$('#moveleft').click(function() {
 		$('#textbox').animate({
 			'marginLeft' : "0" //moves left
@@ -22,8 +23,8 @@ $(document).ready(function() {
 	});
 
 });
-function setClick() {
-	document.getElementById("login_btn").addEventListener('click', function () {
+function setLoginClick() {
+	$("#login_btn").click(function () {
 		$.post("http://"+ipaddress+":8080/Express/WebLoginMethod",
 			{
 				username: document.getElementById("login_username").value,
@@ -42,7 +43,7 @@ function setClick() {
 						cleanCookie("password");
 						setCookie("guid", data, 365)
 					}
-					window.location.href = "../station_listItem.html";
+					window.location.href = "getladinginfo.html";
 				}
 				else
 				{
@@ -55,5 +56,25 @@ function setClick() {
 					}
 				}
 			});
-	}, false);
+	})
+}
+function setRegisterClick() {
+	$("#register_btn").click(function () {
+		$.post("http://"+ipaddress+":8080/Express/RegistMethod",
+			{
+				Phone:$("#signup_phone").val(),
+				Email:$("#signup_mail").val(),
+				RegisteCode:$("#signup_register_num").val(),
+				psw:$("#signup_password").val(),
+				IDName:$("#signup_nickname").val()
+			},
+			function (data) {
+				if(data=="1")
+					alert("注册成功！");
+				else if(data=="2")
+					alert("注册码错误或已使用!");
+				else
+					alert("存在其他错误！");
+			});
+	});
 }

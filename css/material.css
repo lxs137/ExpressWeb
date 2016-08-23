@@ -7363,9 +7363,9 @@ input.mdl-button[type="submit"] {
   color: rgb(66,66,66);
   text-decoration: none;
   margin: 0;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 24px;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 32px;
   letter-spacing: 0;
   opacity: 0.87; }
   .mdl-navigation__link .material-icons {
