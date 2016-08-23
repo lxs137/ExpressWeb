@@ -231,26 +231,22 @@ var initListView=function()
         expandItem: function(li)
         {
             li.removeClass(this.options.collapsedClass);
-            li.children('[data-action="expand"]').hide();
-            li.children('[data-action="collapse"]').show();
             li.children(this.options.listNodeName).show();
 
             var length=li.find("li.dd-item").length;
             for(var i=0;i<length;i++)
                 li.find("li.dd-item").eq(i).children().css("z-index","-1");
-            li.find("li.dd-item").eq(0).children().animate({
-                opacity:"1",
-                marginTop:"0"
-            },2000,function () {
-                li.find("li.dd-item").eq(1).children().animate({
-                    opacity:"1",
-                    marginTop:"0"
-                },2000,function () {
-                    for(var i=0;i<length;i++)
-                        li.find("li.dd-item").eq(i).children().css("z-index","1");
-                });
-            });
+			for(var i=0;i<length-1;i++)
+				li.find("li.dd-item").eq(i).children().animate({
+                	opacity:"1", marginTop:"0"},1000);
 
+			li.find("li.dd-item").eq(length-1).children().animate({
+				opacity:"1", marginTop:"0"},1000,function () {
+				for(var i=0;i<length;i++)
+					li.find("li.dd-item").eq(i).children().css("z-index","1");
+				li.children('[data-action="expand"]').hide();
+				li.children('[data-action="collapse"]').show();
+			});
 
         },
 
@@ -262,27 +258,20 @@ var initListView=function()
                 var length=li.find("li.dd-item").length;
                 for(var i=0;i<length;i++)
                     li.find("li.dd-item").eq(i).children().css("z-index","-1");
-                li.find("li.dd-item").eq(0).children().animate({
-                    opacity:"0",
-                    marginTop:"-195px"
-                },2000,function () {
-                    li.find("li.dd-item").eq(1).children().animate({
-                        opacity:"0",
-                        marginTop:"-195px"
-                    },2000,function () {
-                        for(var i=0;i<length;i++)
-                            li.find("li.dd-item").eq(i).children().css("z-index","1");
-                        li.children('[data-action="collapse"]').hide();
-                        li.children('[data-action="expand"]').show();
-                        li.children(thisObject.options.listNodeName).hide();
-                    });
-                });
+				for(var i=0;i<length-1;i++)
+					li.find("li.dd-item").eq(i).children().animate({
+                    	opacity:"0", marginTop:"-205px"},1000);
+
+				li.find("li.dd-item").eq(length-1).children().animate({
+					opacity:"0", marginTop:"-205px"},1000,function () {
+					for(var i=0;i<length;i++)
+						li.find("li.dd-item").eq(i).children().css("z-index","1");
+					li.children('[data-action="collapse"]').hide();
+					li.children('[data-action="expand"]').show();
+					li.children(thisObject.options.listNodeName).hide();
+				});
 
             }
-
-
-
-
         },
 
         expandAll: function()
@@ -334,13 +323,23 @@ var initListView=function()
 
             this.dragEl = $(document.createElement(this.options.listNodeName)).addClass(this.options.listClass + ' ' + this.options.dragClass);
             this.dragEl.css('width', dragItem.width());
+;
+			if(dragItem.children().length>1) {
+				if (dragItem.children().eq(2).attr("class").toString().indexOf("person") != -1) {
+					this.reset();
+					return;
+				}
+			}
+			else
+			{
+				if(dragItem.children().attr("class").toString().indexOf("person")!=-1||dragItem.children().attr("class").toString().indexOf("undraged")!=-1)
+				{
+					this.reset();
+					return;
+				}
 
-            document.getElementById("test").innerHTML=dragItem.children().attr("class");
-            if(dragItem.children().attr("class").toString().indexOf("person")!=-1)
-            {
-                this.reset();
-                return;
-            }
+			}
+
 
             dragItem.after(this.placeEl);
             dragItem[0].parentNode.removeChild(dragItem[0]);
