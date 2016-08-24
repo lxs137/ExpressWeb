@@ -1,6 +1,9 @@
 /**
  * Created by xyj64 on 2016/8/23.
  */
+$.ajaxSetup({
+	async: false
+});
 var stationinfo = new Array();
 $(document).ready(function () {
 	getInfo();
@@ -12,8 +15,6 @@ $(document).ready(function () {
 function setIsDeliveryCount() {
 	$("#isDeliveryCount").click(function () {
 		var myChart = echarts.init(document.getElementById("pie_isDeliveryCount"));
-		var data1 = [5, 6, 7, 8, 9, 10, 11];
-		var data2 = [11, 10, 9, 8, 7, 6, 5];
 		// 指定图表的配置项和数据
 		var option = null;
 		option = {
@@ -47,7 +48,7 @@ function setIsDeliveryCount() {
 				},
 				series: [
 					{
-						name: 'GDP占比',
+						name: '快递员送货情况统计',
 						type: 'pie',
 						center: ['50%', '50%'],
 						radius: '80%'
@@ -56,84 +57,62 @@ function setIsDeliveryCount() {
 			},
 			options: [
 				{
-					title: {text: '2002全国宏观经济指标'},
 					series: [
 						{
-							data: [
-								{name: '第一产业', value: data1[0]},
-								{name: '第二产业', value: data2[0]}
-							]
+							data: []
 						}
 					]
 				},
 				{
-					title: {text: '2003全国宏观经济指标'},
 					series: [
 						{
-							data: [
-								{name: '第一产业', value: data1[1]},
-								{name: '第二产业', value: data2[1]}
-							]
+							data: []
 						}
 					]
 				},
 				{
-					title: {text: '2004全国宏观经济指标'},
 					series: [
 						{
-							data: [
-								{name: '第一产业', value: data1[2]},
-								{name: '第二产业', value: data2[2]}
-							]
+							data: []
 						}
 					]
 				},
 				{
-					title: {text: '2005全国宏观经济指标'},
 					series: [
 						{
-							data: [
-								{name: '第一产业', value: data1[3]},
-								{name: '第二产业', value: data2[3]}
-							]
+							data: []
 						}
 					]
 				},
 				{
-					title: {text: '2006全国宏观经济指标'},
 					series: [
 						{
-							data: [
-								{name: '第一产业', value: data1[4]},
-								{name: '第二产业', value: data2[4]}
-							]
+							data: []
 						}
 					]
 				},
 				{
-					title: {text: '2007全国宏观经济指标'},
 					series: [
 						{
-							data: [
-								{name: '第一产业', value: data1[5]},
-								{name: '第二产业', value: data2[5]}
-							]
+							data: []
 						}
 					]
 				},
 				{
-					title: {text: '2008全国宏观经济指标'},
 					series: [
 						{
-							data: [
-								{name: '第一产业', value: data1[6]},
-								{name: '第二产业', value: data2[6]}
-							]
+							data: []
 						}
 					]
 				}
 			]
 		};
+		for (var i = 0; i < 7; i++)
+			for (var j = 0; j < stationinfo.length; j++)
+				option.options[i].series[0].data.push({
+					name: stationinfo[j].getNickName(),
+					value: stationinfo[j].getPersonList()[i].getUnDeliveriedNum()
+				});
 		if (option && typeof option === "object") {
 			myChart.setOption(option, true);
 		}
@@ -143,17 +122,21 @@ function setNumCountClick() {
 	$("#numCount").click(function () {
 		var myChart = echarts.init(document.getElementById("bar_numCount"));
 		var xAxisData = [];
-		var data1 = [];
-		var data2 = [];
-		for (var i = 0; i < 35; i++) {
-			xAxisData.push('天数' + i);
-			data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
-			data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
+		var data = new Array();
+		for (var i = 0; i < stationinfo.length; i++) {
+			var persondata = new Array();
+			data.push(persondata);
+		}
+		for (var i = 0; i < 7; i++) {
+			xAxisData.push(stationinfo[0].getPersonList()[i].getDateStr());
+			for (var j = 0; j < stationinfo.length; j++) {
+				data[j].push(stationinfo[j].getPersonList()[i].getUnDeliveriedNum());
+			}
 		}
 
 		option = {
 			legend: {
-				data: ['送达数目', '未送达数目'],
+				data: [],
 				align: 'left'
 			},
 			toolbox: {
@@ -182,34 +165,43 @@ function setNumCountClick() {
 				return idx * 5;
 			}
 		};
-		option.series.push({
-			name: '送达数目',
-			type: 'bar',
-			data: data1,
-			animationDelay: function (idx) {
-				return idx * 10;
-			}
-		});
-		option.series.push({
-			name: '未送达数目',
-			type: 'bar',
-			data: data2,
-			animationDelay: function (idx) {
-				return idx * 10 + 100;
-			}
-		});
+		for (var i = 0; i < stationinfo.length; i++) {
+			option.legend.data.push(stationinfo[i].getNickName());
+			option.series.push(
+				{
+					name: stationinfo[i].getNickName(),
+					type: 'bar',
+					data: data[i],
+					animationDelay: function (idx) {
+						return idx * 10 + i * 100;
+					}
+				}
+			)
+		}
 		myChart.setOption(option, true);
 	})
 }
 function setWeightCountClick() {
 	$("#weightCount").click(function () {
 		var myChart = echarts.init(document.getElementById("bar_WeightCount"));
+		var xAxisData = [];
+		var data = new Array();
+		for (var i = 0; i < stationinfo.length; i++) {
+			var persondata = new Array();
+			data.push(persondata);
+		}
+		for (var i = 0; i < 7; i++) {
+			xAxisData.push(stationinfo[0].getPersonList()[i].getDateStr());
+			for (var j = 0; j < stationinfo.length; j++) {
+				data[j].push(stationinfo[j].getPersonList()[i].getUnDeliveriedWeight());
+			}
+		}
 		option = {
 			tooltip: {
 				trigger: 'axis'
 			},
 			legend: {
-				data: ['蒸发量', '降水量']
+				data: []
 			},
 			toolbox: {
 				show: true,
@@ -222,7 +214,7 @@ function setWeightCountClick() {
 			xAxis: [
 				{
 					type: 'category',
-					data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+					data: xAxisData
 				}
 			],
 			yAxis: [
@@ -230,11 +222,15 @@ function setWeightCountClick() {
 					type: 'value'
 				}
 			],
-			series: [
+			series: []
+		};
+		for (var i = 0; i < stationinfo.length; i++) {
+			option.legend.data.push(stationinfo[i].getNickName());
+			option.series.push(
 				{
-					name: '蒸发量',
+					name: stationinfo[i].getNickName(),
 					type: 'bar',
-					data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+					data: data[i],
 					markPoint: {
 						data: [
 							{type: 'max', name: '最大值'},
@@ -246,25 +242,9 @@ function setWeightCountClick() {
 							{type: 'average', name: '平均值'}
 						]
 					}
-				},
-				{
-					name: '降水量',
-					type: 'bar',
-					data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-					markPoint: {
-						data: [
-							{name: '年最高', value: 182.2, xAxis: 7, yAxis: 183},
-							{name: '年最低', value: 2.3, xAxis: 11, yAxis: 3}
-						]
-					},
-					markLine: {
-						data: [
-							{type: 'average', name: '平均值'}
-						]
-					}
 				}
-			]
-		};
+			)
+		}
 		myChart.setOption(option, true);
 	})
 }
@@ -350,56 +330,67 @@ function DailyInfoCount(totalnum, deliveriednum, undeliveriednum, deliveriedweig
 	}
 }
 function getInfo() {
-	// $.post("http://" + ipaddress + ":8080/Express/GetDeliveryManMethod",
-	// 	{
-	// 		adminGUID: getCookie("guid")
-	// 	},
-	// 	function (data) {
-	data = "5025377629603609#2016-08-20 08:13:35.0#赖娇雨#1314 Elgin St,Houston, Texas#13793984426#1##4791075269657416#2016-08-20 08:13:35.0#井怡娴#6128 Wilcrest Dr.,Houston, Texas#13470449652#1##6641116752875810#2016-08-20 08:13:35.0#戴彦萧#2405 Smith St,Houston, Texas#13103329639#1##7137144945680316#2016-08-19 08:11:16.0#庞熙瑜#3401 Louisiana St,Houston, Texas#13130193517#0##";
-	if (data.toString().indexOf("##") != -1) {
-		var info = data.toString().split("##");
-		for (var i = 0; i < info.length; i++) {
-			var detailInfo = info[i].split("#");
-			if (detailInfo.length < 4)
-				continue;
-			var weekinfo = new WeekInfo();
-			weekinfo.setGuid(detailInfo[0]);
-			weekinfo.setNickName(detailInfo[2]);
-			stationinfo.push(weekinfo);
-		}
-	}
-	else {
-		if (data == "1")
-			alert("GUID错误。");
-		else if (data == "2")
-			alert("无货物信息。");
-		else
-			alert("存在其它错误。");
-	}
+	$.post("http://" + ipaddress + ":8080/Express/GetDeliveryManMethod",
+		{
+			adminGUID: getCookie("guid")
+		},
+		function (data) {
+			// data = "b5f12f659ec2475daebbbeed2ab19d87#Dallas#00121000003#Dallas@express.com#701 Commerce St, Dallas, Texas##2eb622afb3314c829039624621214146#SanAntonio#00121000004#SanAntonio@express.com#321 S Main Ave, San Antonio, Texas##c4df89ec3285495c92caa6a8e1e72a6e#Austin#00121000002#Austin@express.com#925 W 5th St, Austin, Texas##42363fcdc5be437e8c59602e9a39b4d6#Houston#00121000001#Huston@express.com#911 Andrews St, Houston, Texas##";
+			if (data.toString().indexOf("##") != -1) {
+				var info = data.toString().split("##");
+				for (var i = 0; i < info.length; i++) {
+					var detailInfo = info[i].split("#");
+					if (detailInfo.length < 4)
+						continue;
+					var weekinfo = new WeekInfo();
+					weekinfo.setGuid(detailInfo[0]);
+					weekinfo.setNickName(detailInfo[1]);
+					stationinfo.push(weekinfo);
+					alert(stationinfo[i].getNickName() + "　" + stationinfo[i].getGuid());
+				}
+			}
+			else {
+				if (data == "1")
+					alert("GUID错误。");
+				else if (data == "2")
+					alert("无货物信息。");
+				else
+					alert("存在其它错误。");
+			}
 
-	// });
+		});
 	for (var i = 0; i < stationinfo.length; i++) {
 		var originalDate = getNearByDate(new Date(), -7);
 		var afterDate = getNearByDate(originalDate, 1);
 		for (var j = 0; j < 7; j++) {
-			// $.post("http://" + ipaddress + ":8080/Express/GetHisMsgMethod",
-			// 	{
-			// 		adminGUID: stationinfo[i].getGuid(),
-			// 		startTime: originalDate.Format("yyyy-MM-dd") + " 0:0:0",
-			// 		endTime: afterDate.Format("yyyy-MM-dd") + " 0:0:0"
-			// 	},
-			// 	function (data) {
-			var data = "5#3#2#16.2#22#";
-			if (data.toString().indexOf("#") != -1) {
-				var detaildata = data.toString().split("#");
-				if (detaildata.length > 1) {
-					stationinfo[i].getPersonList().push(new DailyInfoCount(detaildata[0], detaildata[1], detaildata[2], detaildata[3], detaildata[4], originalDate.Format("yyyy-MM-dd")));
+			$.post("http://" + ipaddress + ":8080/Express/GetHisMsgMethod",
+				{
+					adminGUID: stationinfo[i].getGuid(),
+					startTime: originalDate.Format("yyyy-MM-dd") + " 0:0:0",
+					endTime: afterDate.Format("yyyy-MM-dd") + " 0:0:0"
+				},
+				function (data) {
+					// var data = "5#3#2#null#null#";
+					if (data.toString().indexOf("#") != -1) {
+						var detaildata = data.toString().split("#");
+						if (detaildata.length > 1) {
+							if (detaildata[0] == "null")
+								detaildata[0] = "0";
+							if (detaildata[1] == "null")
+								detaildata[1] = "0";
+							if (detaildata[2] == "null")
+								detaildata[2] = "0";
+							if (detaildata[3] == "null")
+								detaildata[3] = "0";
+							if (detaildata[4] == "null")
+								detaildata[4] = "0";
+							stationinfo[i].getPersonList().push(new DailyInfoCount(detaildata[0], detaildata[1], detaildata[2], detaildata[3], detaildata[4], originalDate.Format("yyyy-MM-dd")));
+						}
+					}
+					else
+						alert("存在其他错误。");
 				}
-			}
-			else
-				alert("存在其他错误。");
-			// }
-			// );
+			);
 			originalDate = afterDate;
 			afterDate = getNearByDate(originalDate, 1);
 		}

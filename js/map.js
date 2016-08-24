@@ -162,7 +162,7 @@ require([
     // Add the home widget to the top left corner of the view
     view.ui.add(homeBtn, "bottom-right");
 
-    view.ui.add(document.getElementById("map_menu"));
+
 
     /*****************************************************************
      * The visible property on the layer can be used to toggle the
@@ -179,21 +179,37 @@ require([
         view: view
     });
     view.ui.add(compassWidget, "bottom-right");
-    var locateBtn = new Locate({
-        view: view
-    });
-    locateBtn.startup();
-    view.ui.add(locateBtn, {
-        position: "bottom-right",
-    });
+
     var searchWidget = new Search({
         view: view
     });
     searchWidget.startup();
     view.ui.add(searchWidget, {
-        position: "top-right",
+        position: "top-left",
         index: 0
     });
+
+    var searchWidget2 = new Search({
+        view: view
+    });
+    searchWidget2.startup();
+    view.ui.add(searchWidget2, {
+        position: "top-left",
+        index: 1
+    });
+
+    view.ui.add(document.getElementById("map_menu"),{
+        position:"top-left",
+        index:2
+    });
+
+    document.getElementById("stop_search").addEventListener("click",function () {
+        $("#map_menu").slideUp("slow");
+        removeAll();
+    });
+
+    document.getElementById("esri_widgets_Search_0_input").setAttribute("placeholder","出发位置");
+    document.getElementById("esri_widgets_Search_1_input").setAttribute("placeholder","目的位置");
 
     var allStops = Array();
     for(var i = 0; i < myAddressList.length; i++){
@@ -229,13 +245,10 @@ require([
 
     // document.getElementById("baseMapSelect").addEventListener("change", baseMapSelectChange);
 
-    document.getElementById("load").addEventListener("click", onButtonClicked_load);
+    // document.getElementById("load").addEventListener("click", onButtonClicked_load);
 
-    document.getElementById("route").addEventListener("click", onButtonClicked_route);
+    document.getElementById("search_route").addEventListener("click", onButtonClicked_route);
 
-    // function baseMapSelectChange() {
-    //     map.basemap = document.getElementById("baseMapSelect").value;
-    // }
     $(".baseMap_menu_item").click(
         function(){
             var mapName=this.id;
@@ -252,24 +265,19 @@ require([
     }
 
     function onButtonClicked_route() {
-
         removeAll();
         view.popup.close();
 
-        if(document.getElementById("startPoint").value.length == 0){
-            document.getElementById("startPointMessage").innerText = "Start address cannot be null !";
+        if(document.getElementById("esri_widgets_Search_0_input").value.length == 0){
         }
-        if(document.getElementById("endPoint").value.length == 0){
-            document.getElementById("endPointMessage").innerText = "End address cannot be null !";
+        if(document.getElementById("esri_widgets_Search_1_input").value.length == 0){
         }
         else{
-            document.getElementById("startPointMessage").innerText = "";
-            document.getElementById("endPointMessage").innerText = "";
             var startAddress = {
-                SingleLine: document.getElementById("startPoint").value
+                SingleLine: document.getElementById("esri_widgets_Search_0_input").value
             };
             var endAddress = {
-                SingleLine: document.getElementById("endPoint").value
+                SingleLine: document.getElementById("esri_widgets_Search_1_input").value
             };
 
             //万一搜索无结果，removeAll该怎么办？
@@ -318,7 +326,10 @@ require([
             routeParams.stops.features.push(searchResult[1]);
 
             if (routeParams.stops.features.length >= 2) {
-                routeTask.solve(routeParams).then(showRoute2);
+                routeTask.solve(routeParams).then(showRoute2).then(function () {
+                    $("#map_menu").slideDown("slow");
+                });
+
             }
         }
     }
@@ -511,7 +522,7 @@ require([
 
                 document.getElementById("test").innerHTML +=
 
-                    "<button id='direPoint2Point_" + i.toString() + "'>From " + sendRoute[i].startAddress.text + " to " + sendRoute[i].endAddress.text +
+                    "<button class='mdl-button mdl-js-button mdl-route-button' id='direPoint2Point_" + i.toString() + "'>From " + sendRoute[i].startAddress.text + " to " + sendRoute[i].endAddress.text +
                     "<br>( " + Math.round(sendRoute[i].totalLength * 1000) / 1000 + " miles, "
                     + Math.round(sendRoute[i].totalTime * 1000) / 1000 + " minutes )</button>";
 
@@ -520,18 +531,18 @@ require([
                     if(j == 0){
                         var start = sendRoute[i].text[j].replace(/Location 1/, sendRoute[i].startAddress.text);
                         document.getElementById("test").innerHTML +=
-                            "<button id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
+                            "<button class='mdl-button mdl-js-button mdl-route-button' id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
                             + start + "</button>";
                     }
                     else if(j == sendRoute[i].text.length - 1){
                         var end = sendRoute[i].text[j].replace(/Location 2/, sendRoute[i].endAddress.text);
                         document.getElementById("test").innerHTML +=
-                            "<button id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
+                            "<button class='mdl-button mdl-js-button mdl-route-button' id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
                             + end + "</button>";
                     }
                     else{
                         document.getElementById("test").innerHTML +=
-                            "<button id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
+                            "<button class='mdl-button mdl-js-button mdl-route-button' id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
                             + sendRoute[i].text[j] + "<br>( "
                             + Math.round(sendRoute[i].length[j] * 1000) / 1000 + " miles, "
                             + Math.round(sendRoute[i].time[j] * 1000) / 1000 + " minutes )</button>";
@@ -687,7 +698,7 @@ require([
         var address1 = searchResult[1].getAttribute("address");
 
         document.getElementById("test").innerHTML +=
-            "<button id='singleRoute'>From " + address0 + " to " + address1 +
+            "<button class='mdl-button mdl-js-button mdl-route-button' id='singleRoute'>From " + address0 + " to " + address1 +
             "<br>( " + Math.round(totalLength * 1000) / 1000 + " miles, "
             + Math.round(totalTime * 1000) / 1000 + " minutes )</button>";
 
@@ -695,16 +706,16 @@ require([
             if(j == 0){
                 var start = text[j].replace(/Location 1/, address0);
                 document.getElementById("test").innerHTML +=
-                    "<button id='Segment_" + j.toString() + "'>" + start + "</button>";
+                    "<button class='mdl-button mdl-js-button mdl-route-button' id='Segment_" + j.toString() + "'>" + start + "</button>";
             }
             else if(j == text.length - 1){
                 var end = text[j].replace(/Location 2/, address1);
                 document.getElementById("test").innerHTML +=
-                    "<button id='Segment_" + j.toString() + "'>" + end + "</button>";
+                    "<button class='mdl-button mdl-js-button mdl-route-button' id='Segment_" + j.toString() + "'>" + end + "</button>";
             }
             else{
                 document.getElementById("test").innerHTML +=
-                    "<button id='Segment_" + j.toString() + "'>"
+                    "<button class='mdl-button mdl-js-button mdl-route-button' id='Segment_" + j.toString() + "'>"
                     + text[j] + "<br>( "
                     + Math.round(length[j] * 1000) / 1000 + " miles, "
                     + Math.round(time[j] * 1000) / 1000 + " minutes )</button>";

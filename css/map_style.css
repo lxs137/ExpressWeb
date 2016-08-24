@@ -9,20 +9,16 @@
 	width: 100%;
 }
 #map_menu {
-	position: absolute;
-	z-index:2;
+	display: none;
 	padding: 0;
-	height: 95%;
-	width: 20%;
-	margin-left: 0.5%;
-	margin-top: 0.5%;
+	min-height: 0;
 }
 #baseMapSelect {
 	position: fixed;
-	top: 18%;
+	top: 11%;
 	right: 1.5%;
 	background-color: white;
-	opacity: 0.85;
+	opacity: 0.9;
 	width: 10%;
 	height: 5%;
 	z-index: 2;
@@ -33,19 +29,14 @@
 	bottom: 4%;
 	right: 1.5%;
 }
-.esri-locate{
+.esri-compass{
 	position: fixed;
 	bottom: 10%;
 	right: 1.5%;
 }
-.esri-compass{
-	position: fixed;
-	bottom: 16%;
-	right: 1.5%;
-}
 .esri-zoom{
 	position: fixed;
-	bottom: 22%;
+	bottom: 16%;
 	right: 1.5%;
 }
 #baseMapName{
@@ -55,3 +46,21 @@
 	height: 36px;
 	line-height: 36px;
 }
+.mdl-route-button{
+	overflow: visible;
+	text-transform: none;
+	font-weight: 300;
+	line-height: 18px;
+	width: 100%;
+	height: auto;
+	padding: 6px 6px;
+	border-bottom: 1px solid rgba(0,0,0,0.20);
+}
+#search_route{
+	position: fixed;
+	top: 12%;
+	left: 37%;
+	z-index: 2;
+	overflow: visible;
+}
+

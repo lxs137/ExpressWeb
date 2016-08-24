@@ -39,9 +39,9 @@
 			</ul>
 		</div>
 		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-			<a href="#fixed-tab-whether" class="mdl-layout__tab is-active mdl-color--grey-100 mdl-color-text--grey-600" style="font-size: 16px">送达/未送达货物</a>
-			<a href="#fixed-tab-number" class="mdl-layout__tab mdl-color--grey-100 mdl-color-text--grey-600" style="font-size: 16px">货物数量</a>
-			<a href="#fixed-tab-weight" class="mdl-layout__tab mdl-color--grey-100 mdl-color-text--grey-600" style="font-size: 16px">货物重量</a>
+			<a href="#fixed-tab-whether" class="mdl-layout__tab is-active mdl-color--grey-100 mdl-color-text--grey-600" style="font-size: 16px" id="isDeliveryCount">送达/未送达货物</a>
+			<a href="#fixed-tab-number" class="mdl-layout__tab mdl-color--grey-100 mdl-color-text--grey-600" style="font-size: 16px" id="numCount">货物数量</a>
+			<a href="#fixed-tab-weight" class="mdl-layout__tab mdl-color--grey-100 mdl-color-text--grey-600" style="font-size: 16px" id="weightCount">货物重量</a>
 		</div>
 	</header>
 	<div class="basispage-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
@@ -65,7 +65,7 @@
 			</div>
 		</header>
 		<nav class="basispage-navigation mdl-navigation mdl-color--blue-grey-800">
-			<a class="mdl-navigation__link" href="basispage.html">
+			<a class="mdl-navigation__link" href="basispage_chart.html">
 				<div class="material-icons mdl-badge mdl-badge--overlap" data-badge="">数据总览</div>
 				Home
 			</a>
@@ -98,18 +98,26 @@
 	</div>
 	<main class="mdl-layout__content mdl-color--grey-100">
 		<section class="mdl-layout__tab-panel is-active" id="fixed-tab-whether">
-			<div>
-
+			<div id="pie_isDeliveryCount" style="width:800px;height:550px;">
+<!--第一个饼图-->
 			</div>
 		</section>
 		<section class="mdl-layout__tab-panel" id="fixed-tab-number">
-			<div></div>
+			<div id="bar_numCount" style="width:900px;height:400px;">
+				<!--第二个数量-->
+			</div>
 		</section>
 		<section class="mdl-layout__tab-panel" id="fixed-tab-weight">
-			<div></div>
+			<div id="bar_WeightCount" style="width:900px;height:400px;">
+				<!--第三个重量-->
+			</div>
 		</section>
 	</main>
 </div>
+<script src="js/jquery.min.js"></script>
 <script src="js/material.js"></script>
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script src="js/TotalObject.js"></script>
+<script src="js/basispage_chart.js"></script>
 </body>
 </html>
