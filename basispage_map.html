@@ -1,125 +1,137 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Simple Routing - RouteTask - 4.0</title>
-    <style>
-        html,body{
-            height: 100%;
-            width: 100%;
-        }
-        #viewDiv {
-            float: right;
-            position:relative;
-            z-index:1;
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            width: 85%;
-        }
-        #menu {
-            float: left;
-            position:absolute;
-            z-index:2;
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            width: 15%;
-        }
-        #layerToggle {
-            top: 110px;
-            right: 20px;
-            position: absolute;
-            z-index: 99;
-            background-color: white;
-            border-radius: 8px;
-            padding: 10px;
-            opacity: 0.75;
-        }
-        #baseMapSelect {
-            top: 70px;
-            right: 20px;
-            position: absolute;
-            z-index: 99;
-            background-color: white;
-            border-radius: 8px;
-            padding: 10px;
-            opacity: 0.75;
-        }
-        #sidebar {
-            z-index: 99;
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            width: 320px;
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Basisage</title>
 
-    <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
-    <script src="https://js.arcgis.com/4.0/"></script>
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
 
-    <script src="AntColonyAlgorithm.js"></script>
-    <script src="js/map.js"></script>
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
 
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="stylesheet" href="fonts/roboto/Roboto-Bold.ttf">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/material.css">
-    <script src="js/material.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="css/basispage_style.css">
+    <link rel="stylesheet" type="text/css" href="css/Esri_JavaScript_CSS_Main.css">
+    <script type="text/javascript" src="js/Esri_JavaScript_API_4.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/map_style.css">
 </head>
 <body>
-
-<div id="menu">
-    <div>
-        <button id="load">Load</button>
+<div class="basispage-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="basispage-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">主界面</span>
+            <div class="mdl-layout-spacer"></div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+                <i class="mdi mdi-dots-vertical"></i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+                <li class="mdl-menu__item" id="back-top">回到顶部</li>
+                <li class="mdl-menu__item" id="logout">账户注销</li>
+                <li>
+                    <a class="mdl-menu__item" href="https://github.com/lxs137/ExpressWeb">关于我们</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="basispage-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+        <header class="basispage-drawer-header">
+            <i class="mdi mdi-account-circle basispage-avatar mdi-48px"></i>
+            <div class="basispage-avatar-dropdown">
+                <span>hello@example.com</span>
+                <div class="mdl-layout-spacer"></div>
+                <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="mdi mdi-menu-down" role="presentation"></i>
+                    <span class="visuallyhidden">Accounts</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    <li class="mdl-menu__item">hello@example.com</li>
+                    <li class="mdl-menu__item">info@example.com</li>
+                    <li class="mdl-menu__item">Add another account...</li>
+                </ul>
+            </div>
+        </header>
+        <nav class="basispage-navigation mdl-navigation mdl-color--blue-grey-800">
+            <a class="mdl-navigation__link" href="basispage.html">
+                <i class="mdl-color-text--blue-grey-400 mdi mdi-chart-bar material-icons" role="presentation"></i>
+                统计图表
+            </a>
+            <a class="mdl-navigation__link" href="basispage.html">
+                <i class="mdl-color-text--blue-grey-400 mdi mdi-ambulance material-icons" role="presentation"></i>
+                货物调配
+            </a>
+            <a class="mdl-navigation__link" href="basispage.html">
+                <i class="mdl-color-text--blue-grey-400 mdi mdi-google-maps material-icons" role="presentation"></i>
+                查看货物
+            </a>
+            <a class="mdl-navigation__link" href="basispage.html">
+                <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report</i>
+                Spam
+            </a>
+            <div class="mdl-layout-spacer"></div>
+        </nav>
     </div>
+    <main class="mdl-layout__content mdl-color--grey-100">
 
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" id="startPoint" type="text" name="startPoint">
-        <label class="mdl-textfield__label" id="startPointMessage">出发位置</label>
-    </div>
 
-    <div>
-        <label>End at:</label>
-        <input id="endPoint" type="text" name="endPoint" width="100%">
-        <label id="endPointMessage"></label>
-    </div>
 
-    <div>
-    <button id="route">Route</button>
-    </div>
 
-    <div style="width: 100%; height: 500px; overflow-y: scroll">
-        <p id="test"></p>
-    </div>
+        <div class="mdl-card mdl-shadow--2dp esri-ui esri-ui-top-left esri-ui-inner-container" id="map_menu">
+            <div>
+                <button id="load">Load</button>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" id="startPoint" type="text" name="startPoint">
+                <label class="mdl-textfield__label" id="startPointMessage">出发位置</label>
+            </div>
+            <div>
+                <label>End at:</label>
+                <input id="endPoint" type="text" name="endPoint" width="100%">
+                <label id="endPointMessage"></label>
+            </div>
+            <div>
+                <button id="route">Route</button>
+            </div>
+            <div style="width: 100%; height: 500px; overflow-y: scroll">
+                <p id="test"></p>
+            </div>
+            <div>
+                <p id="watch"></p>
+            </div>
+        </div>
+        <div id="viewDiv">
 
-    <div>
-        <p id="watch"></p>
-    </div>
+        </div>
+
+        <div id="baseMapSelect" class="esri-widget-button">
+            <div style="display: inline" id="baseMapName">streets</div>
+            <button id="mapSelect" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: inline;">
+                <i class="mdi mdi-menu-down" role="presentation"></i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="mapSelect">
+                <li class="mdl-menu__item baseMap_menu_item" id="streets">streets</li>
+                <li class="mdl-menu__item baseMap_menu_item" id="hybrid">hybrid</li>
+                <li class="mdl-menu__item baseMap_menu_item" id="topo">topo</li>
+                <li class="mdl-menu__item baseMap_menu_item" id="osm">osm</li>
+                <li class="mdl-menu__item baseMap_menu_item" id="dark-gray">dark-gray</li>
+            </ul>
+        </div>
+
+    </main>
 </div>
-
-<div id="viewDiv"></div>
-
-
-
-<span id="layerToggle">
-    <input type="checkbox" id="streetsLyr"> Transportation
-</span>
-
-<select id="baseMapSelect">
-    <option value="streets">Streets</option>
-    <option value="satellite">Satellite</option>
-    <option value="hybrid">Hybrid</option>
-    <option value="topo">Topo</option>
-    <option value="gray">Gray</option>
-    <option value="dark-gray">Dark-gray</option>
-    <option value="oceans">Oceans</option>
-    <option value="osm">Osm</option>
-    <option value="national-geographic">National-geographic</option>
-</select>
-
-
-
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/material.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
 </body>
 </html>
