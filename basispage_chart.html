@@ -19,7 +19,7 @@
 	<meta name="msapplication-TileColor" content="#3372DF">
 
 	<link rel="stylesheet" href="fonts/roboto/Roboto-Bold.ttf">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="css/material.css">
 	<link rel="stylesheet" type="text/css" href="css/basispage_style.css">
 </head>
@@ -27,15 +27,17 @@
 <div class="basispage-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-layout--fixed-tabs">
 	<header class="basispage-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
 		<div class="mdl-layout__header-row">
-			<span class="mdl-layout-title">Home</span>
+			<span class="mdl-layout-title">主界面</span>
 			<div class="mdl-layout-spacer"></div>
 			<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-				<i class="material-icons">more_vert</i>
+				<i class="mdi mdi-dots-vertical"></i>
 			</button>
 			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-				<li class="mdl-menu__item">About</li>
-				<li class="mdl-menu__item">Contact</li>
-				<li class="mdl-menu__item">Legal information</li>
+				<li class="mdl-menu__item" id="back-top">回到顶部</li>
+				<li class="mdl-menu__item" id="logout">账户注销</li>
+				<li>
+					<a class="mdl-menu__item" href="https://github.com/lxs137/ExpressWeb">关于我们</a>
+				</li>
 			</ul>
 		</div>
 		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
@@ -46,60 +48,50 @@
 	</header>
 	<div class="basispage-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
 		<header class="basispage-drawer-header">
-			<img src="images/user.jpg" class="basispage-avatar">
+			<!--<img src="images/user.jpg" class="basispage-avatar">-->
+			<i class="mdi mdi-account-circle basispage-avatar mdi-48px"></i>
 			<div class="basispage-avatar-dropdown">
 				<span>hello@example.com</span>
 				<div class="mdl-layout-spacer"></div>
 				<button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-					<i class="material-icons" role="presentation">arrow_drop_down</i>
+					<i class="mdi mdi-menu-down" role="presentation"></i>
 					<span class="visuallyhidden">Accounts</span>
 				</button>
 				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
 					<li class="mdl-menu__item">hello@example.com</li>
 					<li class="mdl-menu__item">info@example.com</li>
-					<li class="mdl-menu__item">
-						<i class="material-icons">add</i>
-						Add another account...
-					</li>
+					<li class="mdl-menu__item">Add another account...</li>
 				</ul>
 			</div>
 		</header>
 		<nav class="basispage-navigation mdl-navigation mdl-color--blue-grey-800">
-			<a class="mdl-navigation__link" href="basispage_chart.html">
-				<div class="material-icons mdl-badge mdl-badge--overlap" data-badge="">数据总览</div>
-				Home
+			<a class="mdl-navigation__link" href="basispage.html">
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-chart-bar material-icons" role="presentation"></i>
+				统计图表
 			</a>
 			<a class="mdl-navigation__link" href="basispage.html">
-				<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>
-				Inbox
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-ambulance material-icons" role="presentation"></i>
+				快递调配
 			</a>
 			<a class="mdl-navigation__link" href="basispage.html">
-				<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>
-				Trash
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-google-maps material-icons" role="presentation"></i>
+				查看快递
 			</a>
 			<a class="mdl-navigation__link" href="basispage.html">
-				<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report</i>
-				Spam
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-package-variant-closed material-icons" role="presentation"></i>
+				接收货物
 			</a>
-			<a class="mdl-navigation__link" href="basispage.html">
-				<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>
-				Forums
-			</a>
-			<a class="mdl-navigation__link" href="basispage.html">
-				<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>
-				Updates
-			</a>
-			<a class="mdl-navigation__link" href="basispage.html">
-				<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_offer</i>
-				Promos
-			</a>
+			<div class="mdl-navigation__link dialog-button" >
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-plus material-icons" role="presentation"></i>
+				添加快递
+			</div>
 			<div class="mdl-layout-spacer"></div>
 		</nav>
 	</div>
 	<main class="mdl-layout__content mdl-color--grey-100">
 		<section class="mdl-layout__tab-panel is-active" id="fixed-tab-whether">
 			<div id="pie_isDeliveryCount" style="width:800px;height:550px;">
-<!--第一个饼图-->
+				<!--第一个饼图-->
 			</div>
 		</section>
 		<section class="mdl-layout__tab-panel" id="fixed-tab-number">
@@ -113,11 +105,33 @@
 			</div>
 		</section>
 	</main>
+
+	<dialog id="dialog" class="mdl-dialog">
+		<h3 class="mdl-dialog__title" style="color: #727272">接收已运抵站点的快递</h3>
+		<br>
+		<div class="mdl-dialog__content">
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<input class="mdl-textfield__input" type="text" id="Receiver_IdNum" pattern="[0-9]*">
+				<label class="mdl-textfield__label" for="Receiver_IdNum">输入运抵快递的单号</label>
+				<span class="mdl-textfield__error" id="receiver_message">快递单号只含有数字</span>
+			</div>
+		</div>
+		<div class="mdl-dialog__actions">
+			<button type="button" class="mdl-button mdl-js-button" style="color:#727272">关闭</button>
+			<button type="button" class="mdl-button mdl-js-button mdl-button--primary" id="Receiver">确认收到</button>
+		</div>
+	</dialog>
 </div>
 <script src="js/jquery.min.js"></script>
 <script src="js/material.js"></script>
 <script type="text/javascript" src="js/echarts.min.js"></script>
 <script src="js/TotalObject.js"></script>
 <script src="js/basispage_chart.js"></script>
+<script src="js/dialog-polyfill.js"></script>
+<script src="js/comfirmtheladinginfo.js"></script>
+<script>
+	$("#back-top").click(
+			function(){$('main').animate({scrollTop:0},500)});
+</script>
 </body>
 </html>

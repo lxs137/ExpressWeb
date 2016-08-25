@@ -262,11 +262,11 @@ require([
         routeStopLyr.removeAll();
         searchResultLyr.removeAll();
         routeBySearchLyr.removeAll();
+        view.popup.close();
     }
 
     function onButtonClicked_route() {
         removeAll();
-        view.popup.close();
 
         if(document.getElementById("esri_widgets_Search_0_input").value.length == 0){
         }

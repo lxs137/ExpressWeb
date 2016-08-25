@@ -19,7 +19,6 @@
 	<meta name="msapplication-TileColor" content="#3372DF">
 
 	<link rel="stylesheet" href="fonts/roboto/Roboto-Bold.ttf">
-	<!--<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
 	<link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="css/material.css">
 	<link rel="stylesheet" type="text/css" href="css/listItem_style.css">
@@ -45,7 +44,6 @@
 	</header>
 	<div class="basispage-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
 		<header class="basispage-drawer-header">
-			<!--<img src="images/user.jpg" class="basispage-avatar">-->
 			<i class="mdi mdi-account-circle basispage-avatar mdi-48px"></i>
 			<div class="basispage-avatar-dropdown">
 				<span>hello@example.com</span>
@@ -68,16 +66,20 @@
 			</a>
 			<a class="mdl-navigation__link" href="basispage.html">
 				<i class="mdl-color-text--blue-grey-400 mdi mdi-ambulance material-icons" role="presentation"></i>
-				货物调配
+				快递调配
 			</a>
 			<a class="mdl-navigation__link" href="basispage.html">
 				<i class="mdl-color-text--blue-grey-400 mdi mdi-google-maps material-icons" role="presentation"></i>
-				查看货物
+				查看快递
 			</a>
 			<a class="mdl-navigation__link" href="basispage.html">
-				<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report</i>
-				Spam
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-package-variant-closed material-icons" role="presentation"></i>
+				接收货物
 			</a>
+			<div class="mdl-navigation__link dialog-button" >
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-plus material-icons" role="presentation"></i>
+				添加快递
+			</div>
 			<div class="mdl-layout-spacer"></div>
 		</nav>
 	</div>
@@ -100,11 +102,32 @@
 			<i class="material-icons mdi-send mdi" style="top: 45%;left: 55%"></i>
 		</div>
 	</main>
+	<dialog id="dialog" class="mdl-dialog">
+		<h3 class="mdl-dialog__title" style="color: #727272">接收已运抵站点的快递</h3>
+		<br>
+		<div class="mdl-dialog__content">
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<input class="mdl-textfield__input" type="text" id="Receiver_IdNum" pattern="[0-9]*">
+				<label class="mdl-textfield__label" for="Receiver_IdNum">输入运抵快递的单号</label>
+				<span class="mdl-textfield__error" id="receiver_message">快递单号只含有数字</span>
+			</div>
+		</div>
+		<div class="mdl-dialog__actions">
+			<button type="button" class="mdl-button mdl-js-button" style="color:#727272">关闭</button>
+			<button type="button" class="mdl-button mdl-js-button mdl-button--primary" id="Receiver">确认收到</button>
+		</div>
+	</dialog>
 </div>
-<script type="text/javascript" src="js/material.js"></script>
+<script type="text/javascript" src="js/material.min.js"></script>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/TotalObject.js"></script>
 <script type="text/javascript" src="js/LadingInfo.js"></script>
 <script type="text/javascript" src="js/jquery.nestable.js"></script>
+<script type="text/javascript" src="js/dialog-polyfill.js"></script>
+<script type="text/javascript" src="js/comfirmtheladinginfo.js"></script>
+<script>
+	$("#back-top").click(
+			function(){$('main').animate({scrollTop:0},500)});
+</script>
 </body>
 </html>

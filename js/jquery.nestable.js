@@ -777,5 +777,4 @@ function initladingdata(obj, data, type) {
 		h4.innerHTML = data.getLadingInfoList()[i - 1].getUpDataTime();
 	}
 }
-$("#back-top").click(
-	function(){$('main').animate({scrollTop:0},500)});
+
