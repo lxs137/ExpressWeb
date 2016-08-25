@@ -15,10 +15,6 @@
 		});
 }());
 
-(function () {
-	alert("done");
-}());
-
 $(document).ready(function () {
 	$("#Receiver").click(function () {
 		var dialog=document.querySelector('#dialog');

@@ -160,3 +160,59 @@ dialog.fixed {
 	width: 30%;
 	height: 37%;
 }
+.basispage_newlading_titleback{
+	width: 100%;
+	height: 30%;
+	padding-top: 24px;
+	padding-left: 48px;
+}
+.basispage_newlading_titleback h3{
+	margin-top: 0;
+	margin-bottom: 16px;
+}
+.basispage_newlading_titleback h4{
+	margin-top: 16px;
+}
+.receiver_clean,.sender_clean{
+	padding: 5px 2px;
+}
+#basispage_newlading_sender div{
+	margin: 5px 0;
+}
+#basispage_newlading_sender label{
+	font-size: large;
+}
+#basispage_newlading_sender input{
+	font-size: large;
+}
+#basispage_newlading_receiver div{
+	margin: 5px 0;
+}
+#basispage_newlading_receiver label{
+	font-size: large;
+}
+#basispage_newlading_receiver input{
+	font-size: larger;
+}
+#basispage_newlading_lading .mdl-textfield{
+	width: 80%;
+	margin: 0 10%;
+}
+#basispage_newlading_lading label{
+	font-size: larger;
+}
+#basispage_newlading_lading input{
+	font-size: larger;
+	color: rgba(0,0,0,0.54);
+}
+#basispage_newlading_lading div{
+	margin: 5px 0;
+}
+.specifications_menu_item{
+	height: 36px;
+	line-height: 36px;
+}
+#create_new_lading{
+	width: 80%;
+	margin: 15px 0;
+}

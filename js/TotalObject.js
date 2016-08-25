@@ -1,7 +1,7 @@
 /**
  * Created by xyj64 on 2016/8/17.
  */
-var ipaddress="172.26.52.66";
+var ipaddress="172.28.159.124";
 function setCookie(cname, cvalue, exdays) {
 	var d = new Date();
 	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -25,7 +25,6 @@ function checkCookie() {
 		document.getElementById("login_password").value = pwd;
 	}
 }
-
 function cleanCookie(cname) {
 	document.cookie = cname + "=" + ";expires=Thu, 01-Jan-70 00:00:01 GMT";
 }
@@ -45,13 +44,19 @@ Date.prototype.Format = function (fmt) { //author: meizz
 		if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 	return fmt;
 };
-function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiverphone,isdelivered,havebeen) {
+
+function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiverphone,isdelivered,nowposition) {
 	var ladingIdNum=ladingidnum;
 	var upDataTime=updatatime;
 	var receiverName=receivername;
 	var receiverAddress=receiveraddress;
 	var receiverPhone=receiverphone;
 	var isDelivered=isdelivered;
+	var nowPosition=nowposition;
+
+	this.getNowPosition=function () {
+		return nowPosition;
+	};
 
 	this.getLadingIdNum=function () {
 		return ladingIdNum;
@@ -108,19 +113,22 @@ function LadingInfo(ladingidnum,updatatime,receivername,receiveraddress,receiver
 	this.setIsDelivered=function (isdelivered) {
 		isDelivered=isdelivered;
 	};
+
+	this.setNowPosition=function (nowposition) {
+		nowPosition=nowposition;
+	}
 }
 function LadingInfoManage() {
 	var LadingInfoList=new Array();
 
-	this.setData=function(postBackLadingInfo)
-	{
+	this.setData=function(postBackLadingInfo) {
 		var data=postBackLadingInfo.split("##");
 		for(var i=0;i<data.length;i++)
 		{
 			var detailData=data[i].split("#");
 			if(detailData.length<4)
 				continue;
-			LadingInfoList.push(new LadingInfo(detailData[0],detailData[1],detailData[2],detailData[3],detailData[4],detailData[5]));
+			LadingInfoList.push(new LadingInfo(detailData[0],detailData[1],detailData[2],detailData[3],detailData[4],detailData[5],null));
 		}
 	};
 
