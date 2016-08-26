@@ -125,21 +125,5 @@
 <script type="text/javascript" src="js/jquery.nestable.js"></script>
 <script type="text/javascript" src="js/dialog-polyfill.js"></script>
 <script type="text/javascript" src="js/comfirmtheladinginfo.js"></script>
-<script>
-	$("#back-top").click(
-			function(){$('main').animate({scrollTop:0},500)});
-	document.getElementById("logout").addEventListener('click', function () {
-		$.post("http://" + ipaddress + ":8080/Express/WebLogoutMethod",
-				{
-					adminGUID: getCookie("guid")
-				},
-				function (data) {
-					if (data == "1" || data == "2")
-						alert("成功登出!");
-					else
-						alert("登出失败！存在未知问题！")
-				});
-	}, false);
-</script>
 </body>
 </html>

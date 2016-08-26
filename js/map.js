@@ -141,9 +141,13 @@ require([
 
     var highlightRouteLyr = new GraphicsLayer();
 
-    var routeStopLyr = new GraphicsLayer();
+    var normalRouteStopLyr = new GraphicsLayer();
+
+    var highlightRouteStopLyr = new GraphicsLayer();
 
     var searchResultLyr = new GraphicsLayer();
+
+    var stationLyr = new GraphicsLayer();
 
     var routeBySearchLyr = new GraphicsLayer();
 
@@ -194,7 +198,8 @@ require([
 
     var map = new Map({
         basemap: "streets",
-        layers: [transportationLyr, routeBySearchLyr, searchResultLyr, routeByLoadLyr, highlightRouteLyr, routeStopLyr] // Add the route layer to the map
+        layers: [transportationLyr, routeBySearchLyr, searchResultLyr, routeByLoadLyr, highlightRouteLyr, normalRouteStopLyr, stationLyr,
+            highlightRouteStopLyr] // Add the route layer to the map
     });
 
 
@@ -304,6 +309,170 @@ require([
 
     document.getElementById("search_route").addEventListener("click", onButtonClicked_route);
 
+    document.getElementById("station_1").addEventListener("click", onButtonClicked_station);
+
+    document.getElementById("station_2").addEventListener("click", onButtonClicked_station);
+
+    document.getElementById("station_3").addEventListener("click", onButtonClicked_station);
+
+    document.getElementById("station_4").addEventListener("click", onButtonClicked_station);
+
+    document.getElementById("station_5").addEventListener("click", onButtonClicked_station);
+
+    document.getElementById("station_x").addEventListener("click", onButtonClicked_station);
+
+    function onButtonClicked_station() {
+        var id = this.id;
+        var stationName=null;
+        switch (this.value)
+        {
+            case 0:stationName="Texas";break;
+            case 1:stationName="SanAntonio";break;
+            case 2:stationName="Houston";break;
+            case 3:stationName="Dallas";break;
+            case 4:stationName="Austin";break;
+            case 5:stationName="其他";break;
+        }
+        document.getElementById("ladingStationsName").value=stationName;
+
+        //alert(id);
+        var stationNum = id.substring(8);
+        //alert(stationNum);
+
+        document.getElementById("goods").innerHTML = "";
+
+        if(stationNum.toString() != "x"){
+            //alert("stationNum.toString() != 'x'");
+            stationNum--;
+            //alert(stationNum);
+            document.getElementById("goods").innerHTML +=
+                "<button class='mdl-button mdl-js-button mdl-route-button' id='welcome2station_" + stationNum.toString() + "'>Welcome to " + allStations[stationNum].SingleLine + "!</button>";
+
+            //alert("stationNum.toString(): " + stationNum.toString());
+
+
+            for(var i = 0; i < allStations[stationNum].goods.length; i++){
+                //alert("stationNum.toString(): " + stationNum.toString() + ", i = " + i.toString() + " have goods");
+                //var goodId = myAddressList[stationNum].goods[i].id;
+                var goodIndex = i;
+                //alert(goodIndex);
+                var receiverAddress = allStations[stationNum].goods[i].getReceiverAddress();
+                //alert(receiverAddress);
+                var nowPosition = allStations[stationNum].goods[i].getNowPosition();
+                //alert(nowPosition);
+                document.getElementById("goods").innerHTML +=
+
+                    "<button class='mdl-button mdl-js-button mdl-route-button' id='station_" + stationNum + "_good_" + goodIndex + "'>ID: " + goodIndex + "<br>"
+                    + "receiverAddress: " + receiverAddress + "<br>"
+                    + "nowPosition: " + nowPosition + "</button>";
+            }
+
+            var cell = document.getElementById("welcome2station_" + stationNum.toString());
+            //alert("cell.id = " + cell.id);
+
+            cell.onclick = function () {
+                //alert("locator");
+                var id = this.id;
+                //alert(id);
+                var num = id.substring(id.length - 1);
+                //alert(num);
+                locatorTask.addressToLocations(allStations[num])
+                    .then(expressStation, function (error) {alert(error);});
+            };
+
+            for(var i = 0; i < allStations[stationNum].goods.length; i++){
+                //alert("onclick for goods, stationNum = " + stationNum);
+                var good = document.getElementById("station_" + stationNum.toString() + "_good_" + i.toString());
+                //alert(good.id);
+                good.onclick = function () {
+                    //alert("locator");
+                    var id = this.id;
+                    //alert(id);
+                    var num = id.substring("station_".length);
+                    //alert(num);
+                    var num1 = num.substring(0, 1);
+                    //alert(num1);
+                    var num2 = num.substring("0_good_".length, num.length);
+                    //alert(num2);
+                    locatorTask.addressToLocations(allStations[num1].goods[num2])//Maybe have problem SingleLine
+                        .then(expressStation, function (error) {alert(error);});
+
+                    /**
+                     * findpath
+                     * @type {null}
+                     */
+
+
+                    var idnum = allStations[num1].goods[num2].getLadingIdNum();
+
+                    var info = null;
+                    var path = new Array();
+                    FindPahtByid(idnum,info,path);
+
+                    pathInit(path);
+
+                    var allStops = Array();
+                    for(var i = 0; i < myAddressList.length; i++){
+                        var stop = Object();
+                        allStops.push(stop);
+                    }
+
+                    var sendRoute = Array();
+                    for(var i = 0; i < myAddressList.length - 1; i++){
+                        var singleRoute = Object();
+                        sendRoute.push(singleRoute);
+                    }
+
+                    onButtonClicked_load();
+
+
+                }
+
+            }
+        }
+
+        if(stationNum.toString() == "x"){
+            //alert("stationNum.toString() == 'x'");
+            /*
+             document.getElementById("goods").innerHTML +=
+             "<button>These goods do not belong to any station.</button>";
+             */
+
+            for(var i = 0; i < notStation.length; i++){
+                var goodIndex = i;
+                var receiverAddress = notStation[i].receiverAddress.SingleLine;
+                var nowPosition = notStation[i].nowPosition.SingleLine;
+                document.getElementById("goods").innerHTML +=
+
+                    "<button class='mdl-button mdl-js-button mdl-route-button' id='station_x_good_" + goodIndex + "'>ID: " + goodIndex + "<br>"
+                    + "receiverAddress: " + receiverAddress + "<br>"
+                    + "nowPosition: " + nowPosition + "</button>";
+            }
+
+            for(var i = 0; i < notStation.length; i++){
+                //alert("onclick for goods, stationNum = " + stationNum);
+                var good = document.getElementById("station_x_good_" + i.toString());
+                //alert(good.id);
+                good.onclick = function () {
+                    //alert("locator");
+                    var id = this.id;
+                    //alert(id);
+                    var num = id.substring("station_x_good_".length);
+                    //alert(num);
+                    //var num1 = num.substring(0, 1);
+                    //alert(num1);
+                    //var num2 = num.substring("0_good_".length, num.length);
+                    //alert(num2);
+                    locatorTask.addressToLocations(notStation[num].nowPosition)
+                        .then(expressStation, function (error) {alert(error);});
+                }
+
+            }
+
+        }
+
+    }
+
     $(".baseMap_menu_item").click(
         function(){
             var mapName=this.id;
@@ -314,9 +483,11 @@ require([
     function removeAll() {
         routeByLoadLyr.removeAll();
         highlightRouteLyr.removeAll();
-        routeStopLyr.removeAll();
+        normalRouteStopLyr.removeAll();
+        highlightRouteStopLyr.removeAll();
         searchResultLyr.removeAll();
         routeBySearchLyr.removeAll();
+        stationLyr.removeAll();
         view.popup.close();
     }
 
@@ -340,7 +511,7 @@ require([
             searchResultLyr.removeAll();
             routeBySearchLyr.removeAll();
             routeByLoadLyr.removeAll();
-            routeStopLyr.removeAll();
+            normalRouteStopLyr.removeAll();
 
             locatorTask.addressToLocations(startAddress)
                 .then(expressAddressPoint)
@@ -368,6 +539,27 @@ require([
 
         searchResultLyr.add(stop);
         searchResult.push(stop);
+
+    }
+
+    function expressStation(response) {
+
+        var stop = new Graphic({
+            attributes: {
+                "address": response[0].address
+            },
+            geometry: response[0].location,
+            popupTemplate: {
+                title: "Location",
+                content: "<p><b>" + response[0].address  + "</b></p>",
+            },
+            symbol: normalStopSymbol
+        });
+
+        stationLyr.add(stop);
+        stationResult.push(stop);
+
+        view.goTo(stop);
 
     }
 
@@ -401,31 +593,113 @@ require([
         sendRouteNum = 0;
         view.popup.close();
 
+        function showHighlightRouteStop() {
+            var stop = view.popup.selectedFeature;
+            var highlightstop = new Graphic({
+                geometry: stop.geometry,
+                symbol: highlightStopSymbol
+            });
+            highlightRouteStopLyr.add(highlightstop);
+        }
+
+        function cancelShowHighlightRouteStop() {
+            //alert("cancel");
+            var stop = view.popup.selectedFeature;
+            var highlightstop = new Graphic({
+                geometry: stop.geometry,
+                symbol: normalStopSymbol
+            });
+            highlightRouteStopLyr.add(highlightstop);
+        }
+
+        // view.popup.on("open", function(evt){
+        //     showHighlightRouteStop();
+        // });
+
+        view.popup.on("trigger-action", function(evt){
+            if(evt.action.id === "highlight-routestop"){
+                showHighlightRouteStop();
+            }
+            else if(evt.action.id === "cancel-highlight-routestop"){
+                cancelShowHighlightRouteStop();
+            }
+        });
+
         for (var i = 0; i < myAddressList.length; i++) {
 
+
             locatorTask.addressToLocations(myAddressList[i]).then(function (response) {
-
-                var stop = new Graphic({
-                    attributes: {
-                        "address": response[0].address
-                    },
-                    geometry: response[0].location,
-                    popupTemplate: {
-                        title: "Location",
-                        content: "<p><b>" + response[0].address  + "</b></p>",
-                    },
-                    symbol: normalStopSymbol
-                });
-
-                routeStopLyr.add(stop);
 
 
                 //异步执行地理编码，会导致点数组的顺序混乱，通过规定地址格式，并且与地理编码的地址比较，
                 //使其结果顺序存储，以便路径绘制
                 for(var j = 0; j < myAddressList.length; j++){
+
                     var match = response[0].address.indexOf(myAddressList[j].SingleLine);
 
                     if(match >= 0){
+
+
+                        // Defines an action to zoom out from the selected feature
+                        var highlightRouteStop = {
+                            // This text is displayed as a tooltip
+                            title: "高亮",
+                            // The ID by which to reference the action in the event handler
+                            id: "highlight-routestop",
+                            // Sets the icon font used to style the action button
+                            className: "esri-icon-environment-settings"
+                        };
+                        var cancelHighlightRouteStop = {
+                            // This text is displayed as a tooltip
+                            title: "取消高亮",
+                            // The ID by which to reference the action in the event handler
+                            id: "cancel-highlight-routestop",
+                            // Sets the icon font used to style the action button
+                            className: "esri-icon-environment-settings"
+                        };
+                        var template = new PopupTemplate({
+                            title: "Location",
+                            content: "<p><b>" + response[0].address + "</b></p>" +
+                            "<ul><li>courierNum: " + myAddressList[j].courierNum + "</li>" +
+                            "<li>goodsNum: " + myAddressList[j].goodsNum + "</li>" +
+                            "<li>goodsWeigh: " + myAddressList[j].goodsWeigh + "</li><ul>"
+                        });
+
+                        // Adds the custom action to the PopupTemplate.
+                        template.actions.push(highlightRouteStop);
+                        template.actions.push(cancelHighlightRouteStop);
+
+                        var stop = new Graphic({
+                            attributes: {
+                                "address": response[0].address,
+                                "courierNum": myAddressList[j].courierNum,
+                                "goodsNum": myAddressList[j].goodsNum,
+                                "goodsWeigh": myAddressList[j].goodsWeigh
+                            },
+                            geometry: response[0].location,
+                            popupTemplate: template,
+                            symbol: normalStopSymbol
+                        });
+
+                        // This event fires for each click on any action
+                        // Notice this event is handled on the default popup of the View
+                        // NOT on an instance of PopupTemplate
+
+
+                        /*
+                         stop.onclick = function () {
+                         stop.symbol = highlightRouteSymbol;
+                         };
+                         */
+
+
+                        /*
+                         stop.symbol.height = ( 2 * myAddressList[j].courierNum).toString() + "px";
+                         stop.symbol.width = ( 2 * myAddressList[j].courierNum).toString() + "px";
+                         */
+
+                        normalRouteStopLyr.add(stop);
+
                         allStops[j] = stop;
                         /**allStops' SpatialRference wkid = 4326
                          *
@@ -445,6 +719,7 @@ require([
             });
 
         }
+
 
     }
 
@@ -686,6 +961,24 @@ require([
                             location: routeSegment.geometry.getPoint(0, Math.round(pointsNum/2)),
                             visible: true
                         });
+
+                        if(num2 == 0){
+                            var stop = allStops[num1];
+                            var highlightstop = new Graphic({
+                                geometry: stop.geometry,
+                                symbol: highlightStopSymbol
+                            });
+                            highlightRouteStopLyr.add(highlightstop);
+                        }
+                        else if(num2 == sendRoute[num1].segments.length - 1){
+                            var stop = allStops[++num1];
+                            var highlightstop = new Graphic({
+                                geometry: stop.geometry,
+                                symbol: highlightStopSymbol
+                            });
+                            highlightRouteStopLyr.add(highlightstop);
+                        }
+
                     };
                 }
 
@@ -826,13 +1119,48 @@ require([
                 highlightRouteResult.symbol= highlightRouteSymbol;
                 highlightRouteLyr.add(highlightRouteResult);
                 var pointsNum = routeSegment.geometry.paths[0].length;
-                view.popup.open({
-                    // Set the popup's title to the coordinates of the location
-                    title: "Segment " + num.toString(),
-                    content: document.getElementById(id).innerHTML,
-                    location: routeSegment.geometry.getPoint(0, Math.round(pointsNum/2)),
-                    visible: true
-                });
+                if(num == 0 || num == singleRoute.segments.length - 1){
+                    view.popup.open({
+                        // Set the popup's title to the coordinates of the location
+                        title: "Segment " + num.toString(),
+                        content: document.getElementById(id).innerHTML,
+                        location: {
+                            x: routeSegment.geometry.getPoint(0, Math.round(pointsNum/2)).x,
+                            /**
+                             * how much offset of y ?
+                             * 直接写+ 数值 会随着地图缩放而产生偏差
+                             */
+                            y: routeSegment.geometry.getPoint(0, Math.round(pointsNum/2)).y,
+                        },
+                        visible: true
+                    });
+                }
+                else{
+                    view.popup.open({
+                        // Set the popup's title to the coordinates of the location
+                        title: "Segment " + num.toString(),
+                        content: document.getElementById(id).innerHTML,
+                        location: routeSegment.geometry.getPoint(0, Math.round(pointsNum/2)),
+                        visible: true
+                    });
+                }
+
+                if(num == 0){
+                    var stop = searchResult[0];
+                    var highlightstop = new Graphic({
+                        geometry: stop.geometry,
+                        symbol: highlightStopSymbol
+                    });
+                    highlightRouteStopLyr.add(highlightstop);
+                }
+                else if(num == singleRoute.segments.length - 1){
+                    var stop = searchResult[1];
+                    var highlightstop = new Graphic({
+                        geometry: stop.geometry,
+                        symbol: highlightStopSymbol
+                    });
+                    highlightRouteStopLyr.add(highlightstop);
+                }
             };
         }
     }

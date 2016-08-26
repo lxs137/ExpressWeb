@@ -22,8 +22,8 @@
     <link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/material.css">
     <link rel="stylesheet" type="text/css" href="css/basispage_style.css">
-    <link rel="stylesheet" type="text/css" href="css/Esri_JavaScript_CSS_Main.css">
-    <script type="text/javascript" src="js/Esri_JavaScript_API_4.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/EsriJavaScriptCSSMain.css">
+    <script type="text/javascript" src="js/EsriJavaScriptAPI4.0.js"></script>
     <link rel="stylesheet" type="text/css" href="css/map_style.css">
 </head>
 <body>
@@ -118,7 +118,7 @@
                     </ul>
                 </div>
             </div>
-            <div>
+            <div style="width: 100%; overflow-y: scroll;max-height: 300px;">
                 <p id="goods"></p>
             </div>
         </div>
@@ -157,24 +157,11 @@
 </div>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/material.js"></script>
+<script type="text/javascript" src="js/TotalObject.js"></script>
+<script type="text/javascript" src="js/mapaddressget.js"></script>
+<script type="text/javascript" src="js/findpath.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/dialog-polyfill.js"></script>
 <script type="text/javascript" src="js/comfirmtheladinginfo.js"></script>
-<script>
-    $("#back-top").click(
-            function(){$('main').animate({scrollTop:0},500)});
-    document.getElementById("logout").addEventListener('click', function () {
-        $.post("http://" + ipaddress + ":8080/Express/WebLogoutMethod",
-                {
-                    adminGUID: getCookie("guid")
-                },
-                function (data) {
-                    if (data == "1" || data == "2")
-                        alert("成功登出!");
-                    else
-                        alert("登出失败！存在未知问题！")
-                });
-    }, false);
-</script>
 </body>
 </html>

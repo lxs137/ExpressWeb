@@ -161,3 +161,24 @@ function LadingInfoManage() {
 		})
 	}
 }
+function setLogoutClick() {
+	document.getElementById("logout").addEventListener('click', function () {
+		$.post("http://" + ipaddress + ":8080/Express/WebLogoutMethod",
+			{
+				adminGUID: getCookie("guid")
+			},
+			function (data) {
+				if (data == "1" || data == "2"){
+					alert("成功登出!");
+					window.location.href = "login.html";
+					
+				}
+				else
+					alert("登出失败！存在未知问题！")
+			});
+	}, false);
+}
+function setBackTop() {
+	$("#back-top").click(
+		function(){$('main').animate({scrollTop:0},500)});
+}
