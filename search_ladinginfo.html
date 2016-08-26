@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<title>Basisage</title>
+
+	<!-- Add to homescreen for Chrome on Android -->
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<!-- Add to homescreen for Safari on iOS -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Material Design Lite">
+
+	<!-- Tile icon for Win8 (144x144 + tile color) -->
+	<meta name="msapplication-TileColor" content="#3372DF">
+
+	<link rel="stylesheet" href="fonts/roboto/Roboto-Bold.ttf">
+	<link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="css/material.css">
+	<link rel="stylesheet" type="text/css" href="css/Esri_JavaScript_CSS_Main.css">
+	<script type="text/javascript" src="js/Esri_JavaScript_API_4.0.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/search_ladinginfo_style.css">
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout">
+	<main class="mdl-layout__content mdl-color--grey-100">
+
+		<div class="mdl-card mdl-shadow--2dp " id="map_menu">
+			<div class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="mdi mdi-close material-icons mdi-18px" id="stop_search"></i>
+			</div>
+			<div style="width: 100%; height: 100%; overflow-y: scroll">
+				<div id="test"></div>
+			</div>
+		</div>
+
+		<div class="esri-search esri-widget esri-component" id="search_idnum" role="presentation" widgetId="search_idnum">
+			<div class="esri-search__container" role="presentation">
+				<div class="esri-search__input-container">
+					<form class="esri-search__form" role="search">
+						<input tabindex="0" class="esri-search__input" id="esri_widgets_Search_0_input" role="textbox" type="text" maxlength="128"placeholder="快递单号">
+					</form>
+					<div class="esri-menu esri-search__suggestions-menu" role="menu"></div>
+				</div>
+				<div tabindex="0" title="搜索" class="esri-search__submit-button esri-widget-button" role="button" id="search_idnum_button">
+					<span class="esri-icon-search" role="presentation" aria-hidden="true"></span>
+					<span class="esri-icon-font-fallback-text">搜索</span>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div id="viewDiv"></div>
+
+		<div id="baseMapSelect" class="esri-widget-button" style="padding-left: 10px !important;">
+			<div style="display: inline" id="baseMapName">streets</div>
+			<button id="mapSelect" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: inline;">
+				<i class="mdi mdi-menu-down" role="presentation"></i>
+			</button>
+			<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="mapSelect">
+				<li class="mdl-menu__item baseMap_menu_item" id="streets">streets</li>
+				<li class="mdl-menu__item baseMap_menu_item" id="hybrid">hybrid</li>
+				<li class="mdl-menu__item baseMap_menu_item" id="topo">topo</li>
+				<li class="mdl-menu__item baseMap_menu_item" id="osm">osm</li>
+				<li class="mdl-menu__item baseMap_menu_item" id="dark-gray">dark-gray</li>
+			</ul>
+		</div>
+	</main>
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/material.js"></script>
+<script type="text/javascript" src="js/map_search_ladinginfo.js"></script>
+<script type="text/javascript" src="js/findpath.js"></script>
+</body>
+</html>

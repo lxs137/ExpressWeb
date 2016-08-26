@@ -62,8 +62,8 @@ function setIsDeliveryCount() {
 							data: [],
 							itemStyle: {
 								normal: {
-									shadowBlur: 200,
-									shadowColor: 'rgba(0, 0, 0, 0.5)'
+									shadowBlur: 100,
+									shadowColor: 'rgba(0, 0, 0, 0.2)'
 								}
 							}
 						}
@@ -352,7 +352,6 @@ function getInfo() {
 					weekinfo.setGuid(detailInfo[0]);
 					weekinfo.setNickName(detailInfo[1]);
 					stationinfo.push(weekinfo);
-					alert(stationinfo[i].getNickName() + "　" + stationinfo[i].getGuid());
 				}
 			}
 			else {

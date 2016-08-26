@@ -175,6 +175,7 @@ dialog.fixed {
 }
 .receiver_clean,.sender_clean{
 	padding: 5px 2px;
+	font-size: medium;
 }
 #basispage_newlading_sender div{
 	margin: 5px 0;

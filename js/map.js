@@ -203,6 +203,10 @@ require([
         index:2
     });
 
+    view.ui.add(document.getElementById("ladingStations_ladings"),{
+        position:"bottom-left"
+    });
+
     document.getElementById("stop_search").addEventListener("click",function () {
         $("#map_menu").slideUp("slow");
         removeAll();

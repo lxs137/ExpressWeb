@@ -60,26 +60,26 @@
 			</div>
 		</header>
 		<nav class="basispage-navigation mdl-navigation mdl-color--blue-grey-800">
-			<a class="mdl-navigation__link" href="basispage.html">
+			<a class="mdl-navigation__link" href="basispage_chart.html">
 				<i class="mdl-color-text--blue-grey-400 mdi mdi-chart-bar material-icons" role="presentation"></i>
 				统计图表
 			</a>
-			<a class="mdl-navigation__link" href="basispage.html">
-				<i class="mdl-color-text--blue-grey-400 mdi mdi-ambulance material-icons" role="presentation"></i>
+			<a class="mdl-navigation__link" href="basispage_getladinginfo.html">
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-ambulance material-icons mdl-badge mdl-badge--overlap" data-badge=""></i>
 				快递调配
 			</a>
-			<a class="mdl-navigation__link" href="basispage.html">
+			<a class="mdl-navigation__link" href="basispage_map.html">
 				<i class="mdl-color-text--blue-grey-400 mdi mdi-google-maps material-icons" role="presentation"></i>
 				查看快递
 			</a>
-			<a class="mdl-navigation__link" href="basispage.html">
+			<a class="mdl-navigation__link" href="basispage_newlading.html">
+				<i class="mdl-color-text--blue-grey-400 mdi mdi-plus material-icons" role="presentation"></i>
+				添加快递
+			</a>
+			<a class="mdl-navigation__link" id="dialog_button" href="#">
 				<i class="mdl-color-text--blue-grey-400 mdi mdi-package-variant-closed material-icons" role="presentation"></i>
 				接收货物
 			</a>
-			<div class="mdl-navigation__link dialog-button" >
-				<i class="mdl-color-text--blue-grey-400 mdi mdi-plus material-icons" role="presentation"></i>
-				添加快递
-			</div>
 			<div class="mdl-layout-spacer"></div>
 		</nav>
 	</div>
@@ -128,6 +128,18 @@
 <script>
 	$("#back-top").click(
 			function(){$('main').animate({scrollTop:0},500)});
+	document.getElementById("logout").addEventListener('click', function () {
+		$.post("http://" + ipaddress + ":8080/Express/WebLogoutMethod",
+				{
+					adminGUID: getCookie("guid")
+				},
+				function (data) {
+					if (data == "1" || data == "2")
+						alert("成功登出!");
+					else
+						alert("登出失败！存在未知问题！")
+				});
+	}, false);
 </script>
 </body>
 </html>

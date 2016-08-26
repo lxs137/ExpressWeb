@@ -31,19 +31,22 @@ function setLoginClick() {
 				password: document.getElementById("login_password").value
 			},
 			function (data) {
-				if(data.length==32)
+				// var data="42363fcdc5be437e8c59602e9a39b4d6#2";
+				if(data.toString().indexOf("#")!=-1)
 				{
 					if (document.getElementById("switch_remember").checked) {
 						setCookie("username", document.getElementById("login_username").value, 365);
 						setCookie("password", document.getElementById("login_password").value, 365);
-						setCookie("guid", data, 365);
 					}
 					else {
 						cleanCookie("username");
 						cleanCookie("password");
-						setCookie("guid", data, 365)
 					}
-					window.location.href = "getladinginfo.html";
+					var detaildata=data.toString().split("#");
+					setCookie("guid", detaildata[0], 365);
+					setCookie("power",detaildata[1],365);
+					setCookie("address",detaildata[2],365);
+					window.location.href = "basispage_chart.html";
 				}
 				else
 				{

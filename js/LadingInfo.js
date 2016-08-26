@@ -8,7 +8,6 @@ var ladingInfoManage = new LadingInfoManage();
 var deliveryManManage = new Array();
 $(document).ready(function () {
 	setGetInfoClick();
-	setLogoutClick();
 	setOnThewayClick();
 	initListView();
 });
@@ -69,12 +68,12 @@ function DeliveryMan(dmguid, dmnickname, dmtelephone, dmemail, dmaddress) {
 	}
 }
 function setGetInfoClick() {
-	// $.post("http://" + ipaddress + ":8080/Express/GetStationLadMsgMethod",
-	// 	{
-	// 		adminGUID: getCookie("guid")
-	// 	},
-	// 	function (data) {
-			data = "5025377629603609#2016-08-20 08:13:35.0#赖娇雨#1314 Elgin St,Houston, Texas#13793984426#1##4791075269657416#2016-08-20 08:13:35.0#井怡娴#6128 Wilcrest Dr.,Houston, Texas#13470449652#1##6641116752875810#2016-08-20 08:13:35.0#戴彦萧#2405 Smith St,Houston, Texas#13103329639#1##7137144945680316#2016-08-19 08:11:16.0#庞熙瑜#3401 Louisiana St,Houston, Texas#13130193517#0##";
+	$.post("http://" + ipaddress + ":8080/Express/GetStationLadMsgMethod",
+		{
+			adminGUID: getCookie("guid")
+		},
+		function (data) {
+			// data = "5025377629603609#2016-08-20 08:13:35.0#赖娇雨#1314 Elgin St,Houston, Texas#13793984426#1##4791075269657416#2016-08-20 08:13:35.0#井怡娴#6128 Wilcrest Dr.,Houston, Texas#13470449652#1##6641116752875810#2016-08-20 08:13:35.0#戴彦萧#2405 Smith St,Houston, Texas#13103329639#1##7137144945680316#2016-08-19 08:11:16.0#庞熙瑜#3401 Louisiana St,Houston, Texas#13130193517#0##";
 			if (data.toString().indexOf("##") != -1) {
 				ladingInfoManage.setData(data);
 				initladingdata("nestable1", ladingInfoManage, 0);
@@ -87,13 +86,13 @@ function setGetInfoClick() {
 				else
 					alert("存在其它错误。");
 			}
-	// 	});
-	// $.post("http://" + ipaddress + ":8080/Express/GetDeliveryManMethod",
-	// 	{
-	// 		adminGUID: getCookie("guid")
-	// 	},
-	// 	function (data) {
-			data = "c733595fd19d4720a21242dc9b50c898#Rodger#00121333333#Rodger@express.com#null##931587122c314c7c80155d6df26c89f4#Bobby#00121123456#Bobby@express.com#null##fb0a1b04e2544bb685906ed159c45c73#Allen#00121222222#Allen@express.com#null##9ea1f83abd854ca4be9e1634fb377c10#Edward#00121111111#Edward@express.com#null##5318437932d24021b4ed6636708a1a28#Michael#00121444444#Michael@express.com#null##";
+		});
+	$.post("http://" + ipaddress + ":8080/Express/GetDeliveryManMethod",
+		{
+			adminGUID: getCookie("guid")
+		},
+		function (data) {
+			// data = "c733595fd19d4720a21242dc9b50c898#Rodger#00121333333#Rodger@express.com#null##931587122c314c7c80155d6df26c89f4#Bobby#00121123456#Bobby@express.com#null##fb0a1b04e2544bb685906ed159c45c73#Allen#00121222222#Allen@express.com#null##9ea1f83abd854ca4be9e1634fb377c10#Edward#00121111111#Edward@express.com#null##5318437932d24021b4ed6636708a1a28#Michael#00121444444#Michael@express.com#null##";
 			if (data.toString().indexOf("##") != -1) {
 				var deliverManInfo = data.toString().split("##");
 				for (var i = 0; i < deliverManInfo.length; i++) {
@@ -117,15 +116,15 @@ function setGetInfoClick() {
 				else
 					alert("存在其他错误。");
 			}
-		// }
-	// );
+		}
+	);
 	for (var i = 1; i <= deliveryManManage.length; i++) {
-		// $.post("http://" + ipaddress + ":8080/Express/GetStationLadMsgMethod",
-		// 	{
-		// 		adminGUID: deliveryManManage[i - 1].getdmGUID()
-		// 	},
-		// 	function (data) {
-				data="5025377629603609#2016-08-20 08:13:35.0#赖娇雨#1314 Elgin St,Houston, Texas#13793984426#1##4791075269657416#2016-08-20 08:13:35.0#井怡娴#6128 Wilcrest Dr.,Houston, Texas#13470449652#1##6641116752875810#2016-08-20 08:13:35.0#戴彦萧#2405 Smith St,Houston, Texas#13103329639#1##7137144945680316#2016-08-19 08:11:16.0#庞熙瑜#3401 Louisiana St,Houston, Texas#13130193517#0##";
+		$.post("http://" + ipaddress + ":8080/Express/GetStationLadMsgMethod",
+			{
+				adminGUID: deliveryManManage[i - 1].getdmGUID()
+			},
+			function (data) {
+				// data="5025377629603609#2016-08-20 08:13:35.0#赖娇雨#1314 Elgin St,Houston, Texas#13793984426#1##4791075269657416#2016-08-20 08:13:35.0#井怡娴#6128 Wilcrest Dr.,Houston, Texas#13470449652#1##6641116752875810#2016-08-20 08:13:35.0#戴彦萧#2405 Smith St,Houston, Texas#13103329639#1##7137144945680316#2016-08-19 08:11:16.0#庞熙瑜#3401 Louisiana St,Houston, Texas#13130193517#0##";
 				if (data.toString().indexOf("##") != -1) {
 					deliveryManManage[i - 1].setdmLadingInfoManage(data);
 					initladingdata("Person_" + i, deliveryManManage[i - 1].getdmLadingInfoManage(), 1);
@@ -138,23 +137,9 @@ function setGetInfoClick() {
 					else
 						alert("存在其它错误。");
 				}
-		// 	}
-		// );
+			}
+		);
 	}
-}
-function setLogoutClick() {
-	document.getElementById("logout").addEventListener('click', function () {
-		$.post("http://" + ipaddress + ":8080/Express/WebLogoutMethod",
-			{
-				adminGUID: getCookie("guid")
-			},
-			function (data) {
-				if (data == "1" || data == "2")
-					alert("成功登出!");
-				else
-					alert("登出失败！存在未知问题！")
-			});
-	}, false);
 }
 function setOnThewayClick() {
 	$("#on_the_way").click(function () {

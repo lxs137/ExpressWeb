@@ -63,42 +63,64 @@
             </div>
         </header>
         <nav class="basispage-navigation mdl-navigation mdl-color--blue-grey-800">
-            <a class="mdl-navigation__link" href="basispage.html">
+            <a class="mdl-navigation__link" href="basispage_chart.html">
                 <i class="mdl-color-text--blue-grey-400 mdi mdi-chart-bar material-icons" role="presentation"></i>
                 统计图表
             </a>
-            <a class="mdl-navigation__link" href="basispage.html">
+            <a class="mdl-navigation__link" href="basispage_getladinginfo.html">
                 <i class="mdl-color-text--blue-grey-400 mdi mdi-ambulance material-icons" role="presentation"></i>
                 快递调配
             </a>
-            <a class="mdl-navigation__link" href="basispage.html">
-                <i class="mdl-color-text--blue-grey-400 mdi mdi-google-maps material-icons" role="presentation"></i>
+            <a class="mdl-navigation__link" href="basispage_map.html">
+                <i class="mdl-color-text--blue-grey-400 mdi mdi-google-maps material-icons mdl-badge mdl-badge--overlap" data-badge=""></i>
                 查看快递
             </a>
-            <a class="mdl-navigation__link" href="basispage.html">
+            <a class="mdl-navigation__link" href="basispage_newlading.html">
+                <i class="mdl-color-text--blue-grey-400 mdi mdi-plus material-icons" role="presentation"></i>
+                添加快递
+            </a>
+            <a class="mdl-navigation__link" id="dialog_button" href="#">
                 <i class="mdl-color-text--blue-grey-400 mdi mdi-package-variant-closed material-icons" role="presentation"></i>
                 接收货物
             </a>
-            <div class="mdl-navigation__link dialog-button" >
-                <i class="mdl-color-text--blue-grey-400 mdi mdi-plus material-icons" role="presentation"></i>
-                添加快递
-            </div>
             <div class="mdl-layout-spacer"></div>
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
 
-        <div class="mdl-card mdl-shadow--2dp " id="map_menu">
+        <div class="mdl-card mdl-shadow--4dp " id="map_menu">
             <div class="mdl-button mdl-js-button mdl-button--icon">
                 <i class="mdi mdi-close material-icons mdi-18px" id="stop_search"></i>
             </div>
-            <div style="width: 100%; height: 100%; overflow-y: scroll">
+            <div style="width: 100%; overflow-y: scroll;max-height: 320px;">
                 <div id="test"></div>
             </div>
         </div>
 
         <div class="mdl-button mdl-js-button mdl-button--fab mdl-button--primary" id="search_route">
             <i class="mdi mdi-directions-fork material-icons" id="begin_search"></i>
+        </div>
+
+        <div class="mdl-card mdl-shadow--2dp" id="ladingStations_ladings">
+            <div>
+                <div id="ladingStationsSelectField" style="width: 80%;margin: 0 10%;">
+                    <div style="display: inline;color: #727272" id="ladingStationsName">选择快递中转站点</div>
+                    <button id="ladingStationsSelectButton" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: inline;">
+                        <i class="mdi mdi-menu-down" role="presentation"></i>
+                    </button>
+                    <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="ladingStationsSelectButton">
+                        <li class="mdl-menu__item ladingStations_menu_item" value="0">Texas</li>
+                        <li class="mdl-menu__item ladingStations_menu_item" value="1">SanAntonio</li>
+                        <li class="mdl-menu__item ladingStations_menu_item" value="2">Houston</li>
+                        <li class="mdl-menu__item ladingStations_menu_item" value="3">Dallas</li>
+                        <li class="mdl-menu__item ladingStations_menu_item" value="4">Austin</li>
+                        <li class="mdl-menu__item ladingStations_menu_item" value="5">其他</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <p id="goods"></p>
+            </div>
         </div>
 
         <div id="viewDiv"></div>
@@ -141,6 +163,18 @@
 <script>
     $("#back-top").click(
             function(){$('main').animate({scrollTop:0},500)});
+    document.getElementById("logout").addEventListener('click', function () {
+        $.post("http://" + ipaddress + ":8080/Express/WebLogoutMethod",
+                {
+                    adminGUID: getCookie("guid")
+                },
+                function (data) {
+                    if (data == "1" || data == "2")
+                        alert("成功登出!");
+                    else
+                        alert("登出失败！存在未知问题！")
+                });
+    }, false);
 </script>
 </body>
 </html>
