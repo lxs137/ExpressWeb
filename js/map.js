@@ -1,40 +1,84 @@
 /**
- * Created by Thomas Anderson on 2016/8/19.
+ * Created by Thomas Anderson on 2016/8/25.
  */
+
+var ladinginfoList = new Array();
+
+
+var inStation = new Array();
+
 
 var myAddressList = Array();
 
-var myAddress = {
-    SingleLine: "4800 Calhoun Rd, Houston, Texas"
-};
+var currentSegment = Object();
 
-myAddressList.push(myAddress);
+var allStations = Array();
 
-myAddress = {
-    SingleLine: "Louisiana St, Houston, Texas"
-};
+var notStation = Array();
 
-myAddressList.push(myAddress);
+function addressInit() {
+    var majorStation = {
+        SingleLine: "5105 Westhaven Dr, Fort Worth, Texas",
+        goods: Array()
+    };
+    allStations.push(majorStation);
+    var branchStation = {
+        SingleLine: "925 W 5th St, Austin, Texas",
+        goods: Array()
+    };
+    allStations.push(branchStation);
+    branchStation = {
+        SingleLine: "701 Commerce St, Dallas, Texas",
+        goods: Array()
+    };
+    allStations.push(branchStation);
+    branchStation = {
+        SingleLine: "911 Andrews St, Houston, Texas",
+        goods: Array()
+    };
+    allStations.push(branchStation);
+    branchStation = {
+        SingleLine: "321 S Main Ave, San Antonio, Texas",
+        goods: Array()
+    };
+    allStations.push(branchStation);
+}
 
-myAddress = {
-    SingleLine: "Franklin St, Houston, Texas"
-};
+function filter(){
+    for(var i = 0; i < ladinginfoList.length; i++){
+        for(var j = 0; j < allStations.length; j++){
+            if(ladinginfoList[i].getNowPosition() == allStations[j].SingleLine){
+                ladinginfoList[i].SingleLine = ladinginfoList[i].getNowPosition();//SingleLine For Geocoding
+                allStations[j].goods.push(ladinginfoList[i]);
+                inStation[i] = true;
+            }
+        }
+    }
+    for(var i = 0; i < ladinginfoList.length; i++){
+        if(inStation[i] == false){
+            ladinginfoList[i].SingleLine = ladinginfoList[i].getNowPosition();//SingleLine For Geocoding
+            notStation.push(ladinginfoList[i]);
+        }
+    }
+}
 
-myAddressList.push(myAddress);
 
 
- myAddress = {
- SingleLine: "Silver St, Houston, Texas"
- };
 
- myAddressList.push(myAddress);
+function pathInit(data) {
+    for(var i = 0; i < data.length; i++){
+        var myAddress = {
+            SingleLine: data[i]
+        };
+        myAddressList.push(myAddress);
+    }
+}
 
- myAddress = {
- SingleLine: "Panama St, Houston, Texas"
- };
 
- myAddressList.push(myAddress);
-
+function currentSegmentInit(i, j) {
+    currentSegment.startIndex = i;
+    currentSegment.endIndex = j;
+}
 
 
 require([
@@ -73,6 +117,13 @@ require([
     RouteTask, RouteParameters, RouteResult, FeatureSet, DirectionsFeatureSet, SimpleMarkerSymbol,
     SimpleLineSymbol, Home, Color, urlUtils, dom, on
 ) {
+
+    initdata(ladinginfoList);//LadingInfo Array
+    for(var i = 0; i < ladinginfoList.length; i++){
+        inStation[i] = false;
+    }
+    addressInit();
+    filter();
 
     // proxy the route requests to avoid prompt for log in
     urlUtils.addProxyRule({

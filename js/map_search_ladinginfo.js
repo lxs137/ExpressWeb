@@ -4,36 +4,36 @@
 
 var myAddressList = Array();
 
-var myAddress = {
-	SingleLine: "4800 Calhoun Rd, Houston, Texas"
-};
-
-myAddressList.push(myAddress);
-
-myAddress = {
-	SingleLine: "Louisiana St, Houston, Texas"
-};
-
-myAddressList.push(myAddress);
-
-myAddress = {
-	SingleLine: "Franklin St, Houston, Texas"
-};
-
-myAddressList.push(myAddress);
-
-
-myAddress = {
-	SingleLine: "Silver St, Houston, Texas"
-};
-
-myAddressList.push(myAddress);
-
-myAddress = {
-	SingleLine: "Panama St, Houston, Texas"
-};
-
-myAddressList.push(myAddress);
+// var myAddress = {
+// 	SingleLine: "4800 Calhoun Rd, Houston, Texas"
+// };
+//
+// myAddressList.push(myAddress);
+//
+// myAddress = {
+// 	SingleLine: "Louisiana St, Houston, Texas"
+// };
+//
+// myAddressList.push(myAddress);
+//
+// myAddress = {
+// 	SingleLine: "Franklin St, Houston, Texas"
+// };
+//
+// myAddressList.push(myAddress);
+//
+//
+// myAddress = {
+// 	SingleLine: "Silver St, Houston, Texas"
+// };
+//
+// myAddressList.push(myAddress);
+//
+// myAddress = {
+// 	SingleLine: "Panama St, Houston, Texas"
+// };
+//
+// myAddressList.push(myAddress);
 
 
 
@@ -268,16 +268,17 @@ require([
 
 	function onButtonClicked_search_idnum() {
 		var idnum=document.getElementById("esri_widgets_Search_0_input").value;
+		alert(idnum);
 		var path_address=new Array();
 		var path_info=new Array();
 		var info=null;
-		FindPahtByid(idnum,info,path_address);
-		path_info=info.toString().split("#");
-		if(path_info.length!=path_address.length)
-			alert("存在错误");
-		else {
+		
+		info=FindPahtByidForSearch(idnum,info,path_address);
+		
+		path_info=info.toString().split("#");		
 
-		}
+		showLadingRouteinfo(path_info);
+		// pathInit(path_address);
 	}
 
 	// function onButtonClicked_route() {
@@ -350,6 +351,15 @@ require([
 	// }
 
 
+	function pathInit(data) {
+		for(var i = 0; i < data.length; i++){
+			var myAddress = {
+				SingleLine: data[i]
+			};
+			myAddressList.push(myAddress);
+			onButtonClicked_load();
+		}
+	}
 
 	function onButtonClicked_load() {
 
@@ -442,7 +452,9 @@ require([
 			sendRoute[i] = singleSendRoute;
 
 			if (routeParams.stops.features.length >= 2) {
-				routeTask.solve(routeParams).then(showRoute);
+				routeTask.solve(routeParams).then(showRoute).then(function () {
+					$("#map_menu").slideDown("slow");
+				});
 			}
 		}
 
@@ -529,6 +541,7 @@ require([
 				routeTask.solve(routeParams).then(showExtent);
 			}
 
+			/*
 			document.getElementById("test").innerHTML = "";
 			//alert("print all !");
 			//alert("showRouteNum = " + showRouteNum.toString() + "\n" + "sendRouteNum = " + sendRouteNum.toString());
@@ -566,11 +579,11 @@ require([
 				}
 
 			}
+			*/
 
-			/**
-			 * Route from one address to another
-			 * SpatialRference wkid = 102100
-			 */
+			/*
+
+
 			for(var i = 0; i < sendRoute.length; i++){
 				var cell = document.getElementById("direPoint2Point_" + i.toString());
 				cell.onclick = function () {
@@ -593,12 +606,9 @@ require([
 					});
 				};
 			}
+			*/
 
-			/**
-			 * Segments of route from one address to another
-			 * initial SpatialRference  = null
-			 * Need to set SpatialRference wkid = 102100
-			 */
+			/*
 			for(var i = 0; i < sendRoute.length; i++){
 
 				var segmentsNum = sendRoute[i].segments.length;
@@ -650,8 +660,195 @@ require([
 				}
 
 			}
+			*/
 
 		}
+
+	}
+
+	function showLadingRouteinfo(path_info) {
+		// showRouteNum++;
+		// var routeResult = data.routeResults[0].route;
+		// routeResult.symbol = routeSymbol;
+		// routeByLoadLyr.add(routeResult);
+		//
+		// var routeDirection = data.routeResults[0].directions;
+		//
+		// var totalLength = routeDirection.totalLength;
+		//
+		// var totalTime = routeDirection.totalTime;
+		//
+		// var features = routeDirection.features;
+		//
+		// var text = Array();
+		//
+		// for(var i = 0; i < features.length; i++){
+		// 	var singleText = features[i].getAttribute("text");
+		// 	text.push(singleText);
+		// }
+		//
+		// var length = Array();
+		//
+		// for(var i = 0; i < features.length; i++){
+		// 	var singleLength = features[i].getAttribute("length");
+		// 	length.push(singleLength);
+		// }
+		//
+		// var time = Array();
+		//
+		// for(var i = 0; i < features.length; i++){
+		// 	var singleTime = features[i].getAttribute("time");
+		// 	time.push(singleTime);
+		// }
+		//
+		// var stops = data.routeResults[0].stops;
+		// /**stops' SpatialRference wkid = 102100
+		//  *
+		//  */
+		//
+		// var stopPoint0 = webMercatorUtils.webMercatorToGeographic(stops[0].geometry);
+		// var stopPoint1 = webMercatorUtils.webMercatorToGeographic(stops[1].geometry);
+		//
+		//
+		// for(var i = 0; i < myAddressList.length - 1; i++) {
+		// 	//alert("enter match period ! " + "\n" + " i = " + i.toString());
+		// 	/**每个分支路径的数据容器和计算结果只要比较出发点是否相同即可
+		// 	 *geographic和webMercator之间的转换会有一定的误差
+		// 	 * 判断相等时精确到千分之一
+		// 	 */
+		//
+		// 	var startX1 = Math.round(sendRoute[i].startAddress.x * 1000) / 1000;
+		// 	var startY1 = Math.round(sendRoute[i].startAddress.y * 1000) / 1000;
+		// 	var startX2 = Math.round(stopPoint0.x * 1000) / 1000;
+		// 	var startY2 = Math.round(stopPoint0.y * 1000) / 1000;
+		//
+		// 	if (startX1 == startX2 && startY1 == startY2) {
+		// 		sendRouteNum++;
+		// 		sendRoute[i].directions = data.routeResults[0].directions;
+		// 		sendRoute[i].totalLength = totalLength;
+		// 		sendRoute[i].totalTime = totalTime;
+		// 		sendRoute[i].text = text;
+		// 		sendRoute[i].length = length;
+		// 		sendRoute[i].time = time;
+		// 		sendRoute[i].totalGraphic = routeResult;
+		// 		sendRoute[i].segments = features;
+		// 	}
+		// }
+
+		for(var i=0;i<path_info.length;i++)
+		{
+			document.getElementById("test").innerHTML +=
+				"<button class='mdl-button mdl-js-button mdl-route-button' id='path_info_" + i.toString() + "_Segment" + "'>"
+				+ path_info[i].toString()+"</button>";
+		}
+		$("#map_menu").slideDown("slow");
+
+		// if(sendRouteNum == myAddressList.length - 1) {
+		//
+		// 	routeParams.stops.features.splice(0, routeParams.stops.features.length);
+		// 	for(var i = 0; i < allStops.length; i++){
+		// 		routeParams.stops.features.push(allStops[i]);
+		// 	}
+		// 	if (routeParams.stops.features.length >= 2) {
+		// 		routeTask.solve(routeParams).then(showExtent);
+		// 	}
+		//
+		// 	document.getElementById("test").innerHTML = "";
+		// 	//alert("print all !");
+		// 	//alert("showRouteNum = " + showRouteNum.toString() + "\n" + "sendRouteNum = " + sendRouteNum.toString());
+		// 	//document.getElementById("test").innerHTML += "<ul id='routeDirection'>";
+		// 	for(var i = 0; i < sendRouteNum; i++){
+		//
+		// 		document.getElementById("test").innerHTML +=
+		//
+		// 			"<button class='mdl-button mdl-js-button mdl-route-button' id='direPoint2Point_" + i.toString() + "'>From " + sendRoute[i].startAddress.text + " to " + sendRoute[i].endAddress.text +
+		// 			"<br>( " + Math.round(sendRoute[i].totalLength * 1000) / 1000 + " miles, "
+		// 			+ Math.round(sendRoute[i].totalTime * 1000) / 1000 + " minutes )</button>";
+		//
+		// 		for (var j = 0; j < sendRoute[i].text.length; j++) {
+		//
+		// 			if(j == 0){
+		// 				var start = sendRoute[i].text[j].replace(/Location 1/, sendRoute[i].startAddress.text);
+		// 				document.getElementById("test").innerHTML +=
+		// 					"<button class='mdl-button mdl-js-button mdl-route-button' id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
+		// 					+ start + "</button>";
+		// 			}
+		// 			else if(j == sendRoute[i].text.length - 1){
+		// 				var end = sendRoute[i].text[j].replace(/Location 2/, sendRoute[i].endAddress.text);
+		// 				document.getElementById("test").innerHTML +=
+		// 					"<button class='mdl-button mdl-js-button mdl-route-button' id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
+		// 					+ end + "</button>";
+		// 			}
+		// 			else{
+		// 				document.getElementById("test").innerHTML +=
+		// 					"<button class='mdl-button mdl-js-button mdl-route-button' id='direPoint2Point_" + i.toString() + "_Segment_" + j.toString() + "'>"
+		// 					+ sendRoute[i].text[j] + "<br>( "
+		// 					+ Math.round(sendRoute[i].length[j] * 1000) / 1000 + " miles, "
+		// 					+ Math.round(sendRoute[i].time[j] * 1000) / 1000 + " minutes )</button>";
+		// 			}
+		//
+		// 		}
+		//
+		// 	}
+		//
+		// 	/**
+		// 	 * Segments of route from one address to another
+		// 	 * initial SpatialRference  = null
+		// 	 * Need to set SpatialRference wkid = 102100
+		// 	 */
+		// 	for(var i = 0; i < sendRoute.length; i++){
+		//
+		// 		var segmentsNum = sendRoute[i].segments.length;
+		//
+		// 		for(var j = 0; j < segmentsNum; j++){
+		//
+		// 			var cell = document.getElementById("direPoint2Point_" + i.toString() + "_Segment_" + j.toString());
+		// 			cell.onclick = function () {
+		// 				highlightRouteLyr.removeAll();
+		// 				var id = this.id;
+		// 				var num = id.substring("direPoint2Point_".length, id.length);
+		// 				var num1 = "";
+		// 				var num2 = "";
+		// 				var numOf_ = 0;
+		// 				var num1End = false;
+		// 				for(var k = 0; k < num.length; k++){
+		// 					if(num.charAt(k) != "_" && !num1End){
+		// 						num1 += num.charAt(k);
+		// 					}
+		// 					else{
+		// 						num1End = true;
+		// 						if(num.charAt(k) == "_"){
+		// 							numOf_++;
+		// 						}
+		// 					}
+		// 					if(numOf_ == 2){
+		// 						num2 = num.substring(k + 1,num.length);
+		// 						break;
+		// 					}
+		// 				}
+		// 				var routeSegment = sendRoute[num1].segments[num2];
+		// 				routeSegment.geometry.spatialReference = new SpatialReference({ // autocasts as new SpatialReference()
+		// 					wkid: 3857
+		// 				});
+		// 				view.goTo(routeSegment);
+		// 				var highlightRouteResult = routeSegment;
+		// 				highlightRouteResult.symbol= highlightRouteSymbol;
+		// 				highlightRouteLyr.add(highlightRouteResult);
+		// 				var pointsNum = routeSegment.geometry.paths[0].length;
+		//
+		// 				view.popup.open({
+		// 					// Set the popup's title to the coordinates of the location
+		// 					title: "Segment " + num2.toString(),
+		// 					content: document.getElementById(id).innerHTML,
+		// 					location: routeSegment.geometry.getPoint(0, Math.round(pointsNum/2)),
+		// 					visible: true
+		// 				});
+		// 			};
+		// 		}
+		//
+		// 	}
+		//
+		// }
 
 	}
 
