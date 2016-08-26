@@ -333,7 +333,7 @@ require([
             case 4:stationName="Austin";break;
             case 5:stationName="其他";break;
         }
-        document.getElementById("ladingStationsName").value=stationName;
+        document.getElementById("ladingStationsName").innerHTML=stationName;
 
         //alert(id);
         var stationNum = id.substring(8);
